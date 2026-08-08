@@ -76,3 +76,26 @@ five entry points. Nothing in `src/net/` or `src/proto/` should change.
 - `client_send` blocks if a peer stops reading and its socket buffer fills.
   Fine for one local UI; revisit if spectators are ever added.
 - Sessions are process-global: one game per server instance.
+- **Half-close is not supported.** `recv() == 0` is treated as a full
+  disconnect, so a peer that does `shutdown(SHUT_WR)` and then waits to read is
+  dropped. This is standard behaviour, but it bites when testing: `echo CMD |
+  nc ...` closes its write side on EOF, so that connection never sees later
+  broadcasts. Keep stdin open when you want to watch — use interactive `nc`,
+  or `(sleep 10) | nc 127.0.0.1 4242`.
+- The stub **broadcasts** its join snapshot, so every connected client sees a
+  fresh `GAME`/`BOARD`/`TURN` burst whenever anyone else connects. Harmless
+  with a single UI. The real engine should send the join snapshot to the
+  joining client only.
+
+## Verified
+
+Under `gomoku-dev` (Debian bookworm, gcc 12, `-Wall -Wextra -Werror -O2`):
+
+- compiles clean, no warnings;
+- second `make` is a no-op, and touching one source relinks;
+- valgrind: 0 errors, 0 leaks, all heap freed, exit code 0, with a client still
+  connected at shutdown;
+- survives a 64KB newline-less flood, 8KB single lines, abrupt mid-line
+  disconnects, garbage verbs, out-of-range and non-numeric coordinates;
+- no descriptor leak across 60 sequential connections;
+- line framing handles CRLF, split packets and multiple commands per packet.
