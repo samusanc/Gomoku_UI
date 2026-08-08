@@ -1,7 +1,6 @@
 # --- C server ---
 server/objects/
 server/gomoku_server
-server/.mandatory
 *.o
 *.a
 *.d

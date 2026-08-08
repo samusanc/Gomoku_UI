@@ -39,18 +39,17 @@ OBJS		= $(addprefix $(O_DIR)/, $(SRCS:.c=.o))
 
 $(O_DIR)/%.o: %.c
 	@mkdir -p $(@D)
-	$(CC) $(INC) -g -c $< -o $(O_DIR)/$(<:.c=.o)
+	$(CC) -g -c $< -o $(O_DIR)/$(<:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) .mandatory
-	@echo "mandatory done..."
-
 #======================= MANDATORY AND BONUS =========================#
 
-.mandatory: $(OBJS)
+# The binary depends on the objects directly: it relinks when a source
+# changed and stays untouched otherwise, so a second `make` is a no-op.
+$(NAME): $(OBJS)
 	$(CC) -o $(NAME) $(OBJS)
-	@touch .mandatory
+	@echo "mandatory done..."
 
 #============================== CLEANING =============================#
 
@@ -59,7 +58,6 @@ re: fclean all
 fclean: clean
 	@echo "cleaning binaries..."
 	@rm -f $(NAME)
-	@rm -f .mandatory
 
 clean:
 	@echo "cleaning objects..."
