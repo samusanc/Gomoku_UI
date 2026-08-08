@@ -1,0 +1,246 @@
+[gd_scene load_steps=32 format=3]
+
+[ext_resource type="Shader" path="res://Shaders/Vignette.gdshader" id="1_vig"]
+[ext_resource type="Script" path="res://Scripts/StartButton.gd" id="2_start"]
+[ext_resource type="Script" path="res://Scripts/crt_button.gd" id="3_crtbtn"]
+[ext_resource type="Script" path="res://Scripts/menu_status.gd" id="4_status"]
+[ext_resource type="Script" path="res://Scripts/LoadWheel.gd" id="5_wheel"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_1.png" id="f1"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_2.png" id="f2"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_3.png" id="f3"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_4.png" id="f4"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_5.png" id="f5"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_6.png" id="f6"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_7.png" id="f7"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_8.png" id="f8"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_9.png" id="f9"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_10.png" id="f10"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_11.png" id="f11"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_12.png" id="f12"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_13.png" id="f13"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_14.png" id="f14"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_15.png" id="f15"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_16.png" id="f16"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_17.png" id="f17"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_18.png" id="f18"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_19.png" id="f19"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_20.png" id="f20"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_21.png" id="f21"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_22.png" id="f22"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_23.png" id="f23"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_24.png" id="f24"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vig"]
+shader = ExtResource("1_vig")
+shader_parameter/outerRadius = 0.268
+shader_parameter/MainAlpha = 0.148
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wheel"]
+blend_mode = 3
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wheel"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("f1")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f2")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f3")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f4")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f5")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f6")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f7")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f8")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f9")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f10")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f11")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f12")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f13")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f14")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f15")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f16")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f17")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f18")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f19")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f20")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f21")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f22")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f23")
+},
+{
+"duration": 1.0,
+"texture": ExtResource("f24")
+}],
+"loop": true,
+"name": &"default",
+"speed": 40.0
+}]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Vignette" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_vig")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BlackUI" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.541176)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "GOMOKU"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Control/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+text = "protocol console"
+horizontal_alignment = 1
+
+[node name="Status" type="RichTextLabel" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+bbcode_enabled = true
+fit_content = true
+horizontal_alignment = 1
+script = ExtResource("4_status")
+
+[node name="Host" type="LineEdit" parent="Control/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "HOST (127.0.0.1)"
+alignment = 1
+
+[node name="Port" type="LineEdit" parent="Control/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "PORT (4242)"
+alignment = 1
+
+[node name="Play" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "PLAY"
+script = ExtResource("2_start")
+
+[node name="CrtToggle" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Enable CRT mode"
+script = ExtResource("3_crtbtn")
+
+[node name="LoadWheel" type="AnimatedSprite2D" parent="Control"]
+visible = false
+material = SubResource("CanvasItemMaterial_wheel")
+position = Vector2(576, 520)
+scale = Vector2(0.64, 0.64)
+sprite_frames = SubResource("SpriteFrames_wheel")
+script = ExtResource("5_wheel")
+
+[connection signal="pressed" from="Control/VBoxContainer/Play" to="Control/VBoxContainer/Play" method="_on_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/CrtToggle" to="Control/VBoxContainer/CrtToggle" method="_on_pressed"]
