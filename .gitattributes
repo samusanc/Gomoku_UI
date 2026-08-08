@@ -1,0 +1,3 @@
+# Keep LF in the working tree: Makefiles and shell recipes break under
+# Linux with CRLF, and the norminette counts a stray CR as a column.
+* text=auto eol=lf
