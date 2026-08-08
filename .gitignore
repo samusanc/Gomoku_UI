@@ -1,0 +1,29 @@
+# --- C server ---
+server/objects/
+server/gomoku_server
+server/.mandatory
+*.o
+*.a
+*.d
+
+# --- final executable ---
+Gomoku
+
+# --- Godot ---
+game/.godot/
+game/.import/
+game/export.cfg
+game/export_presets.cfg
+game/build/
+
+# --- editors / os ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# --- AI tooling must never land in this repo ---
+CLAUDE.md
+AGENTS.md
+.claude/
