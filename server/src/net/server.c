@@ -5,6 +5,18 @@
 #include <string.h>
 #include <unistd.h>
 
+static volatile sig_atomic_t	g_stop = 0;
+
+/*
+** Ask the accept loop to wind down. Nothing else is done here: the teardown
+** itself runs in main, where it is safe to touch the client table.
+*/
+static void	on_stop_signal(int sig)
+{
+	(void)sig;
+	g_stop = 1;
+}
+
 /*
 ** Bind and listen on the loopback interface only. Returns -1 on any failure
 ** so main can report it and exit; nothing here kills the process itself.
@@ -17,6 +29,8 @@ int	server_init(t_server *server, int port)
 	memset(server, 0, sizeof(*server));
 	FD_ZERO(&server->active);
 	signal(SIGPIPE, SIG_IGN);
+	signal(SIGINT, on_stop_signal);
+	signal(SIGTERM, on_stop_signal);
 	server->listen_fd = socket(AF_INET, SOCK_STREAM, 0);
 	if (server->listen_fd < 0)
 		return (-1);
@@ -36,15 +50,16 @@ int	server_init(t_server *server, int port)
 }
 
 /*
-** Single threaded select loop. It only ever returns on a fatal select error;
-** a misbehaving client is dropped, never fatal.
+** Single threaded select loop. Returns 0 when a signal asked it to stop and
+** -1 on a fatal select error. A misbehaving client is dropped, never fatal.
+** select is not restarted after a signal on Linux, so the flag is seen here.
 */
 int	server_run(t_server *server)
 {
 	fd_set	read_set;
 	int		fd;
 
-	while (1)
+	while (g_stop == 0)
 	{
 		read_set = server->active;
 		if (select(server->max_fd + 1, &read_set, NULL, NULL, NULL) < 0)
