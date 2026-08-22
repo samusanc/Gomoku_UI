@@ -1,4 +1,4 @@
-extends Button
+extends ChunkyButton
 
 ## Toggles the CRT filter. Currently disabled in the scene: the filter is on
 ## from launch and not meant to be switched off, so the label starts in the
@@ -8,6 +8,7 @@ var crt_on := true
 
 
 func _ready() -> void:
+	super._ready()
 	text = "Disable CRT mode" if crt_on else "Enable CRT mode"
 
 

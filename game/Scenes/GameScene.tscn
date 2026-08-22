@@ -1,43 +1,61 @@
-[gd_scene format=3 uid="uid://cl8ycfbwgtdfn"]
+[gd_scene load_steps=15 format=3]
 
-[ext_resource type="Shader" uid="uid://dnnr7onxd8xhp" path="res://Shaders/GameBackground.gdshader" id="0_bg"]
-[ext_resource type="Script" uid="uid://d4ewu0i3rkte7" path="res://Scripts/game_background.gd" id="0_bgs"]
-[ext_resource type="Script" uid="uid://ckowsnlmmm7sc" path="res://Scripts/game_scene.gd" id="1_root"]
-[ext_resource type="Script" uid="uid://dab0o04mp05xh" path="res://Scripts/goban.gd" id="2_goban"]
-[ext_resource type="Script" uid="uid://c7ilx4no46ibk" path="res://Scripts/hud.gd" id="3_hud"]
-[ext_resource type="Script" uid="uid://cpluelk8h3jrx" path="res://Scripts/console_view.gd" id="4_log"]
-[ext_resource type="Script" uid="uid://bg03guidydfw7" path="res://Scripts/server_status.gd" id="5_status"]
-[ext_resource type="Script" uid="uid://cboajh3y5xbpd" path="res://Scripts/reconnection_button.gd" id="6_recon"]
-[ext_resource type="Script" uid="uid://ck5mc71akvnti" path="res://Scripts/pause.gd" id="7_pause"]
-[ext_resource type="PackedScene" uid="uid://d3q7cyk88tgjq" path="res://Scenes/MainMenuUI.tscn" id="8_menu"]
+[ext_resource type="Shader" path="res://Shaders/GameBackground.gdshader" id="0_bg"]
+[ext_resource type="Script" path="res://Scripts/game_background.gd" id="0_bgs"]
+[ext_resource type="Script" path="res://Scripts/game_scene.gd" id="1_root"]
+[ext_resource type="Script" path="res://Scripts/goban.gd" id="2_goban"]
+[ext_resource type="Script" path="res://Scripts/hud.gd" id="3_hud"]
+[ext_resource type="Script" path="res://Scripts/console_view.gd" id="4_log"]
+[ext_resource type="Script" path="res://Scripts/server_status.gd" id="5_status"]
+[ext_resource type="Script" path="res://Scripts/reconnection_button.gd" id="6_recon"]
+[ext_resource type="Script" path="res://Scripts/command_input.gd" id="7_input"]
+[ext_resource type="PackedScene" path="res://Scenes/PauseMenu.tscn" id="8_pause"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/ChunkyButton.tscn" id="btn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gamebg"]
 shader = ExtResource("0_bg")
 shader_parameter/time_val = 0.0
 shader_parameter/spin_time = 0.0
-shader_parameter/colour_1 = Color(0.12, 0.3, 0.213, 1)
-shader_parameter/colour_2 = Color(0.06366805, 0.2008535, 0.12028528, 1)
-shader_parameter/colour_3 = Color(0.08381174, 0.24844176, 0.18232414, 1)
-shader_parameter/contrast = 2.1
+shader_parameter/colour_1 = Color(0, 0, 0, 1)
+shader_parameter/colour_2 = Color(0, 0.16, 0.36, 1)
+shader_parameter/colour_3 = Color(0.42, 0, 0.09, 1)
+shader_parameter/contrast = 1.0
 shader_parameter/spin_amount = 1.05
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+[sub_resource type="StyleBoxFlat" id="sb_side"]
+bg_color = Color(0.035, 0.045, 0.06, 0.90)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1.0, 0.23, 0.23, 0.95)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 content_margin_left = 14.0
-content_margin_top = 10.0
+content_margin_top = 12.0
 content_margin_right = 14.0
-content_margin_bottom = 10.0
-bg_color = Color(0.03, 0.04, 0.05, 0.78)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.62, 0.71, 0.78, 0.3)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+content_margin_bottom = 12.0
 
-[node name="GameScene" type="Control" unique_id=904942677]
+[sub_resource type="StyleBoxFlat" id="sb_log"]
+bg_color = Color(0.0, 0.0, 0.0, 0.35)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color(1.0, 0.23, 0.23, 0.0)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+
+
+[node name="GameScene" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -46,17 +64,18 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_root")
 
-[node name="Background" type="ColorRect" parent="." unique_id=1679837204]
-material = SubResource("ShaderMaterial_gamebg")
+[node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+material = SubResource("ShaderMaterial_gamebg")
+color = Color(1, 1, 1, 1)
 script = ExtResource("0_bgs")
 
-[node name="Margin" type="MarginContainer" parent="." unique_id=893383070]
+[node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -68,11 +87,11 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 10
 
-[node name="Split" type="HBoxContainer" parent="Margin" unique_id=94441918]
+[node name="Split" type="HBoxContainer" parent="Margin"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Goban" type="Control" parent="Margin/Split" unique_id=381478523]
+[node name="Goban" type="Control" parent="Margin/Split"]
 texture_filter = 2
 custom_minimum_size = Vector2(360, 360)
 layout_mode = 2
@@ -80,109 +99,126 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 script = ExtResource("2_goban")
 
-[node name="Side" type="VBoxContainer" parent="Margin/Split" unique_id=1555388194]
-custom_minimum_size = Vector2(330, 0)
+[node name="Side" type="PanelContainer" parent="Margin/Split"]
+custom_minimum_size = Vector2(354, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("sb_side")
+
+[node name="Menu" type="VBoxContainer" parent="Margin/Split/Side"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="TopBar" type="HBoxContainer" parent="Margin/Split/Side" unique_id=526228510]
+[node name="TopBar" type="HBoxContainer" parent="Margin/Split/Side/Menu"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Title" type="Label" parent="Margin/Split/Side/TopBar" unique_id=770935710]
+[node name="Title" type="Label" parent="Margin/Split/Side/Menu/TopBar"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 1
 theme_override_font_sizes/font_size = 18
 text = "GOMOKU"
 
-[node name="Reconnect" type="Button" parent="Margin/Split/Side/TopBar" unique_id=1313346365]
-layout_mode = 2
-text = "Reconnect"
+[node name="Reconnect" type="Button" parent="Margin/Split/Side/Menu/TopBar"]
 script = ExtResource("6_recon")
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+size_flags_vertical = 4
+text = "Reconnect"
+chunk_size = 14
+outline_thickness = 2
+pad = Vector2i(9, 3)
+tone = 1
 
-[node name="Status" type="RichTextLabel" parent="Margin/Split/Side/TopBar" unique_id=656562569]
+[node name="Status" type="RichTextLabel" parent="Margin/Split/Side/Menu/TopBar"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 bbcode_enabled = true
 fit_content = true
 script = ExtResource("5_status")
 
-[node name="HudBox" type="PanelContainer" parent="Margin/Split/Side" unique_id=1425472270]
+[node name="Sep1" type="HSeparator" parent="Margin/Split/Side/Menu"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
-[node name="Hud" type="VBoxContainer" parent="Margin/Split/Side/HudBox" unique_id=392872562]
+[node name="Hud" type="VBoxContainer" parent="Margin/Split/Side/Menu"]
 layout_mode = 2
 theme_override_constants/separation = 6
 script = ExtResource("3_hud")
 
-[node name="Turn" type="Label" parent="Margin/Split/Side/HudBox/Hud" unique_id=1144619613]
+[node name="Turn" type="Label" parent="Margin/Split/Side/Menu/Hud"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 17
 text = "Move 1   Black (you)"
 
-[node name="Captures" type="Label" parent="Margin/Split/Side/HudBox/Hud" unique_id=1060643157]
+[node name="Captures" type="Label" parent="Margin/Split/Side/Menu/Hud"]
 layout_mode = 2
 text = "Captures   B 0/10   W 0/10"
 
-[node name="Timer" type="Label" parent="Margin/Split/Side/HudBox/Hud" unique_id=278029905]
+[node name="Timer" type="Label" parent="Margin/Split/Side/Menu/Hud"]
 modulate = Color(0.66, 1, 0.72, 1)
 layout_mode = 2
 text = "AI  --"
 autowrap_mode = 2
 
-[node name="Result" type="Label" parent="Margin/Split/Side/HudBox/Hud" unique_id=1324275271]
+[node name="Result" type="Label" parent="Margin/Split/Side/Menu/Hud"]
 modulate = Color(1, 0.86, 0.4, 1)
 layout_mode = 2
 autowrap_mode = 2
 
-[node name="Actions" type="HBoxContainer" parent="Margin/Split/Side" unique_id=1411564037]
+[node name="Sep2" type="HSeparator" parent="Margin/Split/Side/Menu"]
+layout_mode = 2
+
+[node name="Actions" type="HBoxContainer" parent="Margin/Split/Side/Menu"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Hint" type="Button" parent="Margin/Split/Side/Actions" unique_id=71032364]
+[node name="Hint" parent="Margin/Split/Side/Menu/Actions" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 size_flags_horizontal = 3
+chunk_size = 17
+tone = 0
 text = "Hint"
 
-[node name="Rematch" type="Button" parent="Margin/Split/Side/Actions" unique_id=348984159]
+[node name="Rematch" parent="Margin/Split/Side/Menu/Actions" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 size_flags_horizontal = 3
+chunk_size = 17
+tone = 1
 text = "Rematch"
 
-[node name="Resign" type="Button" parent="Margin/Split/Side/Actions" unique_id=1167746113]
+[node name="Resign" parent="Margin/Split/Side/Menu/Actions" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 size_flags_horizontal = 3
+chunk_size = 17
+tone = 2
 text = "Resign"
 
-[node name="LogBox" type="PanelContainer" parent="Margin/Split/Side" unique_id=1936648999]
+[node name="LogBox" type="PanelContainer" parent="Margin/Split/Side/Menu"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+theme_override_styles/panel = SubResource("sb_log")
 
-[node name="Log" type="RichTextLabel" parent="Margin/Split/Side/LogBox" unique_id=473953793]
+[node name="Log" type="RichTextLabel" parent="Margin/Split/Side/Menu/LogBox"]
 layout_mode = 2
-focus_mode = 2
 theme_override_font_sizes/normal_font_size = 12
 bbcode_enabled = true
 scroll_following = true
 selection_enabled = true
 script = ExtResource("4_log")
 
-[node name="PauseMenu" type="Control" parent="." unique_id=163569496]
+[node name="Input" type="LineEdit" parent="Margin/Split/Side/Menu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+placeholder_text = "raw protocol line, enter to send"
+script = ExtResource("7_input")
+
+[node name="PauseMenu" parent="." instance=ExtResource("8_pause")]
 visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("7_pause")
 
-[node name="MainMenu" parent="PauseMenu" unique_id=1366748362 instance=ExtResource("8_menu")]
-layout_mode = 1
-
-[connection signal="pressed" from="Margin/Split/Side/TopBar/Reconnect" to="Margin/Split/Side/TopBar/Reconnect" method="_on_pressed"]
-[connection signal="pressed" from="Margin/Split/Side/Actions/Hint" to="." method="_on_hint_pressed"]
-[connection signal="pressed" from="Margin/Split/Side/Actions/Rematch" to="." method="_on_rematch_pressed"]
-[connection signal="pressed" from="Margin/Split/Side/Actions/Resign" to="." method="_on_resign_pressed"]
+[connection signal="pressed" from="Margin/Split/Side/Menu/TopBar/Reconnect" to="Margin/Split/Side/Menu/TopBar/Reconnect" method="_on_pressed"]
+[connection signal="pressed" from="Margin/Split/Side/Menu/Actions/Hint" to="." method="_on_hint_pressed"]
+[connection signal="pressed" from="Margin/Split/Side/Menu/Actions/Rematch" to="." method="_on_rematch_pressed"]
+[connection signal="pressed" from="Margin/Split/Side/Menu/Actions/Resign" to="." method="_on_resign_pressed"]

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/chunky_button.gd" id="1_chunky"]
+
+[node name="ChunkyButton" type="Button"]
+custom_minimum_size = Vector2(0, 54)
+offset_right = 200.0
+offset_bottom = 54.0
+text = "BUTTON"
+script = ExtResource("1_chunky")

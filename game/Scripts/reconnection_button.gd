@@ -1,4 +1,4 @@
-extends Button
+extends ChunkyButton
 
 ## Re-runs the last connection with the same host and port.
 

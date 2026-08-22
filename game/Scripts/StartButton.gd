@@ -1,4 +1,4 @@
-extends Button
+extends ChunkyButton
 
 ## PLAY: reads host and port out of the two fields and asks for a connection.
 
