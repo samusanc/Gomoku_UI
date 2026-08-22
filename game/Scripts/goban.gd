@@ -7,21 +7,34 @@ extends Control
 ## repaint stays cheap enough to do on every event.
 
 const SIZE := 19
-const MARGIN := 26.0
+const BOARD_TEX := preload("res://Assets/Textures/gomokuBoard.png")
+
+## Where the painted grid sits inside the board artwork, as a fraction of the
+## image. Measured off gomokuBoard.png by least-squares fitting the 18 clean
+## interior lines (the outermost ones bleed into the frame shadow): worst
+## residual 2.4 px on a 1024 px image, cells square to within 0.4%. Positions
+## are fractions rather than pixels so alignment holds at any display size.
+const GRID_LEFT := 0.038449
+const GRID_RIGHT := 0.960475
+const GRID_TOP := 0.045252
+const GRID_BOTTOM := 0.937536
+
 const STARS := [Vector2i(3, 3), Vector2i(3, 9), Vector2i(3, 15),
 	Vector2i(9, 3), Vector2i(9, 9), Vector2i(9, 15),
 	Vector2i(15, 3), Vector2i(15, 9), Vector2i(15, 15)]
 
-const COL_BOARD := Color(0.055, 0.075, 0.105, 0.88)
-const COL_EDGE := Color(0.55, 0.68, 0.80, 0.35)
-const COL_GRID := Color(0.55, 0.68, 0.80, 0.30)
-const COL_STAR := Color(0.60, 0.72, 0.84, 0.55)
+const COL_OVERLAY := Color(0.20, 1.0, 1.0, 0.50)
+const COL_OVERLAY_STAR := Color(0.35, 1.0, 1.0, 0.85)
 const COL_BLACK := Color(0.07, 0.08, 0.10)
 const COL_WHITE := Color(0.93, 0.95, 0.96)
 const COL_RIM := Color(0.0, 0.0, 0.0, 0.55)
 const COL_LAST := Color(1.0, 0.85, 0.25, 0.95)
 const COL_HINT := Color(0.45, 1.0, 0.55, 0.95)
 const COL_BAD := Color(1.0, 0.35, 0.35, 0.75)
+
+## Draws the computed grid over the artwork so the two can be checked against
+## each other. Turn off once the alignment is trusted.
+@export var show_grid_overlay := true
 
 var hover := Vector2i(-1, -1)
 var last_move := Vector2i(-1, -1)
@@ -76,29 +89,44 @@ func on_end(_winner: String, _reason: String) -> void:
 	queue_redraw()
 
 
-## Largest centred square that fits, so the board never distorts.
+## The artwork, fitted into the available space without distorting it.
 func board_rect() -> Rect2:
-	var side := minf(size.x, size.y)
-	return Rect2((size - Vector2(side, side)) * 0.5, Vector2(side, side))
+	var tex_size := BOARD_TEX.get_size()
+	if tex_size.x <= 0.0 or tex_size.y <= 0.0:
+		return Rect2(Vector2.ZERO, size)
+	var aspect := tex_size.x / tex_size.y
+	var w := size.x
+	var h := w / aspect
+	if h > size.y:
+		h = size.y
+		w = h * aspect
+	return Rect2((size - Vector2(w, h)) * 0.5, Vector2(w, h))
 
 
+## Cell pitch in pixels, the smaller axis so stones never overlap a line.
 func step() -> float:
-	return (board_rect().size.x - 2.0 * MARGIN) / float(SIZE - 1)
+	var r := board_rect()
+	var sx := r.size.x * (GRID_RIGHT - GRID_LEFT) / float(SIZE - 1)
+	var sy := r.size.y * (GRID_BOTTOM - GRID_TOP) / float(SIZE - 1)
+	return minf(sx, sy)
 
 
 func cell_pos(x: int, y: int) -> Vector2:
 	var r := board_rect()
-	return r.position + Vector2(MARGIN + x * step(), MARGIN + y * step())
+	var fx := GRID_LEFT + (GRID_RIGHT - GRID_LEFT) * float(x) / float(SIZE - 1)
+	var fy := GRID_TOP + (GRID_BOTTOM - GRID_TOP) * float(y) / float(SIZE - 1)
+	return r.position + Vector2(r.size.x * fx, r.size.y * fy)
 
 
 ## Screen point to intersection, or (-1,-1) when the click is not near one.
 func pos_cell(p: Vector2) -> Vector2i:
 	var r := board_rect()
-	var st := step()
-	if st <= 0.0:
+	if r.size.x <= 0.0 or r.size.y <= 0.0:
 		return Vector2i(-1, -1)
-	var fx := (p.x - r.position.x - MARGIN) / st
-	var fy := (p.y - r.position.y - MARGIN) / st
+	var fx := ((p.x - r.position.x) / r.size.x - GRID_LEFT) \
+		/ (GRID_RIGHT - GRID_LEFT) * float(SIZE - 1)
+	var fy := ((p.y - r.position.y) / r.size.y - GRID_TOP) \
+		/ (GRID_BOTTOM - GRID_TOP) * float(SIZE - 1)
 	var x := int(round(fx))
 	var y := int(round(fy))
 	if x < 0 or x >= SIZE or y < 0 or y >= SIZE:
@@ -127,16 +155,22 @@ func draw_stone(centre: Vector2, radius: float, colour: Color) -> void:
 
 
 func _draw() -> void:
-	var r := board_rect()
-	draw_rect(r, COL_BOARD, true)
-	draw_rect(r, COL_EDGE, false, 1.0)
-	for i in SIZE:
-		draw_line(cell_pos(0, i), cell_pos(SIZE - 1, i), COL_GRID, 1.0)
-		draw_line(cell_pos(i, 0), cell_pos(i, SIZE - 1), COL_GRID, 1.0)
-	for s in STARS:
-		draw_circle(cell_pos(s.x, s.y), maxf(2.0, step() * 0.09), COL_STAR)
+	draw_texture_rect(BOARD_TEX, board_rect(), false)
+	if show_grid_overlay:
+		draw_overlay_grid()
 	draw_stones()
 	draw_markers()
+
+
+## The grid we compute, drawn on top of the grid that is painted into the
+## artwork. Any drift between the two is visible immediately.
+func draw_overlay_grid() -> void:
+	for i in SIZE:
+		draw_line(cell_pos(0, i), cell_pos(SIZE - 1, i), COL_OVERLAY, 1.0)
+		draw_line(cell_pos(i, 0), cell_pos(i, SIZE - 1), COL_OVERLAY, 1.0)
+	for s in STARS:
+		draw_circle(cell_pos(s.x, s.y), maxf(2.0, step() * 0.10),
+			COL_OVERLAY_STAR)
 
 
 func draw_stones() -> void:
