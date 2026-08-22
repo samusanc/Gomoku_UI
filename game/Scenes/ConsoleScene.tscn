@@ -1,11 +1,23 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=9 format=3]
 
+[ext_resource type="Shader" path="res://Shaders/GameBackground.gdshader" id="0_bg"]
+[ext_resource type="Script" path="res://Scripts/game_background.gd" id="0_bgs"]
 [ext_resource type="Script" path="res://Scripts/console_view.gd" id="1_console"]
 [ext_resource type="Script" path="res://Scripts/server_status.gd" id="2_status"]
 [ext_resource type="Script" path="res://Scripts/reconnection_button.gd" id="3_recon"]
 [ext_resource type="Script" path="res://Scripts/command_input.gd" id="4_input"]
 [ext_resource type="Script" path="res://Scripts/pause.gd" id="5_pause"]
 [ext_resource type="PackedScene" path="res://Scenes/MainMenuUI.tscn" id="6_menu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gamebg"]
+shader = ExtResource("0_bg")
+shader_parameter/time_val = 0.0
+shader_parameter/spin_time = 0.0
+shader_parameter/colour_1 = Color(0, 0, 0, 1)
+shader_parameter/colour_2 = Color(0, 0.4, 0.9, 1)
+shader_parameter/colour_3 = Color(1, 0, 0.2, 1)
+shader_parameter/contrast = 1.0
+shader_parameter/spin_amount = 1.05
 
 [node name="ConsoleScene" type="Control"]
 layout_mode = 3
@@ -16,13 +28,15 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Background" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_gamebg")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.06, 0.07, 0.09, 1)
+color = Color(1, 1, 1, 1)
+script = ExtResource("0_bgs")
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 1
