@@ -6,26 +6,50 @@
 # include "gomoku.h"
 
 /*
-** Seam between the transport layer and the real game logic plus AI.
+** Seam between the transport layer and the AI engine.
 **
-** The server parses a line, hands it to engine_handle, and whatever this layer
-** emits goes back out as protocol events. No rule, no search and no evaluation
-** ever belongs in src/net/ or src/proto/. Replacing the stub implementation
-** must not require a single change there.
+** The engine is the submodule in server/ai_engine, owned by the engine team.
+** It holds the board, the rules and the search. This layer only translates:
+** protocol line in, engine call out, protocol events back. No rule, no
+** evaluation and no search ever belongs here or in src/net/ and src/proto/.
 */
 
 /*
-** Scaffolding state held by the stub only. The real engine is free to define
-** its own session type; only the five entry points below are contractual.
+** Sides, in the engine's own convention: it stores black as a positive cell
+** and white as negative, and black moves on even turns.
 */
+# define SIDE_BLACK 0
+# define SIDE_WHITE 1
+# define SIDE_NONE (-1)
+
+# define SCORE_INF 10000000
+
+/*
+** The engine's search takes a fixed depth and cannot be interrupted, so the
+** wrapper deepens one ply at a time and stops before it would blow the
+** subject's half second. GROWTH is how much more expensive the next ply is
+** assumed to be, measured at roughly 6x to 12x on the current engine.
+*/
+# define AI_BUDGET_MS 400
+# define AI_MAX_DEPTH 12
+# define AI_GROWTH 10
+
+typedef struct s_search_result
+{
+	int	move;
+	int	depth;
+	int	score;
+	int	ms;
+}	t_search_result;
+
 typedef struct s_session
 {
-	t_board	board;
-	int		active;
-	int		move_no;
-	t_cell	ai_color;
-	char	mode[8];
-	char	ruleset[16];
+	t_game_state	state;
+	int				active;
+	int				finished;
+	int				ai_side;
+	char			mode[8];
+	char			ruleset[16];
 }	t_session;
 
 int		engine_init(t_server *server);
@@ -34,14 +58,28 @@ void	engine_client_join(t_server *server, t_client *client);
 void	engine_client_leave(t_server *server, t_client *client);
 void	engine_handle(t_server *server, t_client *client, t_cmd *cmd);
 
-void	stub_new(t_server *server, t_client *client, t_cmd *cmd, t_session *s);
-void	stub_move(t_server *server, t_client *client, t_cmd *cmd, t_session *s);
-void	stub_suggest(t_server *server, t_client *client, t_cmd *cmd,
-			t_session *s);
-void	stub_state(t_server *server, t_client *client, t_cmd *cmd,
-			t_session *s);
+/* engine_view.c */
+const char	*side_name(int side);
+int			side_to_move(t_session *session);
+void		view_board(t_server *server, t_session *session);
+void		view_snapshot(t_server *server, t_session *session);
+void		view_turn(t_server *server, t_session *session);
 
-void	stub_send_board(t_server *server, t_board *board);
-void	stub_send_snapshot(t_server *server, t_session *session);
+/* engine_move.c */
+void	move_apply(t_server *server, t_session *session, int move);
+int		move_report_end(t_server *server, t_session *session);
+void	cmd_move(t_server *server, t_client *client, t_cmd *cmd);
+
+/* engine_search.c */
+void	engine_search(t_session *session, t_search_result *result);
+void	ai_take_turn(t_server *server, t_session *session);
+void	cmd_suggest(t_server *server, t_client *client);
+
+/* engine_cmds.c */
+void	cmd_new(t_server *server, t_client *client, t_cmd *cmd);
+void	cmd_state(t_server *server, t_client *client);
+void	cmd_resign(t_server *server, t_client *client);
+
+t_session	*engine_session(void);
 
 #endif

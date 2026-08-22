@@ -1,0 +1,4 @@
+[submodule "server/ai_engine"]
+	path = server/ai_engine
+	url = https://github.com/andresmejiaro/gomoku.git
+	branch = main
