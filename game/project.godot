@@ -11,20 +11,22 @@ config_version=5
 [application]
 
 config/name="Gomoku"
-run/main_scene="res://Scenes/MainMenuUI.tscn"
+run/main_scene="res://Scenes/Main.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 SignalBus="*res://Scripts/SignalBus.gd"
-SceneManager="*res://Scripts/scene_manager.gd"
 Network="*res://Scripts/Network.gd"
-Crt="*res://Scenes/GUI/crt.tscn"
 
 [display]
 
 window/stretch/mode="canvas_items"
+
+[gui]
+
+theme/custom_font="res://Assets/Fonts/GeistPixel-Regular-VariableFont_ELSH.ttf"
 
 [rendering]
 
