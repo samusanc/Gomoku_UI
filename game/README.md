@@ -27,7 +27,7 @@ game/
 │   ├── Main.tscn            persistent root: SubViewport + CRT post process
 │   ├── MainMenuUI.tscn      title, start bar, connect + options panels
 │   ├── GameScene.tscn       the board, HUD, actions, protocol log
-│   └── ConsoleScene.tscn    bare protocol console, kept for debugging
+│   └── PauseMenu.tscn       ESC overlay: resume, rematch, resign, leave
 ├── Scripts/
 │   ├── SignalBus.gd         every cross scene signal
 │   ├── Network.gd           TCP link and line framing
@@ -37,7 +37,8 @@ game/
 │   ├── goban.gd             draws the board, turns clicks into MOVE
 │   ├── hud.gd               turn, captures, the mandatory AI timer
 │   ├── game_scene.gd        Hint / Rematch / Resign, starts a game
-│   └── ...                  title float, spinner, status, pause, input
+│   ├── pause_menu.gd        ESC overlay
+│   └── ...                  title float, spinner, status, raw input
 ├── Shaders/                 CrtPost, GameBackground, Background, Vignette
 └── Assets/                  Fonts (Geist Pixel), Textures
 ```
@@ -86,9 +87,20 @@ and the AI are all the server and engine, per `../PROTOCOL.md`.
 to the server figure from `THOUGHT` and shows a running average. The average is
 what the subject grades, so both are on screen.
 
+## Pausing
+
+ESC opens `PauseMenu.tscn` over the game. It does **not** pause the scene tree:
+the server owns the game and keeps running regardless, so freezing our process
+would only stall the socket read while the engine carried on thinking, and the
+position would then arrive in a burst on resume. The overlay dims the board and
+swallows input instead, so no stray click reaches the goban.
+
+`Disconnect` drops the link and returns to the main menu; `Rematch` asks
+`game_scene` for a fresh `NEW` so the parameters stay in one place.
+
 ## Sending commands by hand
 
-The box at the bottom of the console sends one raw protocol line. Try:
+The box under the log in the game scene sends one raw protocol line. Try:
 
 ```
 STATE
