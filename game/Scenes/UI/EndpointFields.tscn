@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/endpoint_fields.gd" id="1_ep"]
+
+[node name="EndpointFields" type="VBoxContainer"]
+theme_override_constants/separation = 8
+script = ExtResource("1_ep")
+
+[node name="Host" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Host"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Host"
+
+[node name="Field" type="LineEdit" parent="Host"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "127.0.0.1"
+
+[node name="Port" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Port"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Port"
+
+[node name="Field" type="LineEdit" parent="Port"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "4242"

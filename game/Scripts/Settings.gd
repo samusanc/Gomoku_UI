@@ -11,6 +11,11 @@ const MODE_HOTSEAT := "pvp"
 
 signal changed()
 
+## Where to connect. Edited in Options, read by the play button, so moving the
+## fields between screens does not touch the connect path.
+var host := "127.0.0.1"
+var port := "4242"
+
 var mode := MODE_AI
 var human_colour := "B"
 var ruleset := "standard"
@@ -28,6 +33,14 @@ func set_human_colour(value: String) -> void:
 
 func set_ruleset(value: String) -> void:
 	ruleset = value
+	changed.emit()
+
+
+func set_endpoint(new_host: String, new_port: String) -> void:
+	if new_host != "":
+		host = new_host
+	if new_port != "":
+		port = new_port
 	changed.emit()
 
 

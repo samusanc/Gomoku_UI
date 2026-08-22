@@ -283,7 +283,7 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -235.0
-offset_top = -474.0
+offset_top = -400.0
 offset_right = 235.0
 offset_bottom = -44.0
 grow_horizontal = 2
@@ -301,16 +301,6 @@ bbcode_enabled = true
 fit_content = true
 horizontal_alignment = 1
 script = ExtResource("4_status")
-
-[node name="Host" type="LineEdit" parent="ConnectPanel/Box/VBox" unique_id=1567817772]
-layout_mode = 2
-placeholder_text = "HOST (127.0.0.1)"
-alignment = 1
-
-[node name="Port" type="LineEdit" parent="ConnectPanel/Box/VBox" unique_id=422466614]
-layout_mode = 2
-placeholder_text = "PORT (4242)"
-alignment = 1
 
 [node name="GameSettings" parent="ConnectPanel/Box/VBox" instance=ExtResource("gs")]
 layout_mode = 2

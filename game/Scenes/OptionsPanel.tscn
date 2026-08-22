@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://Scripts/options_panel.gd" id="1_opt"]
 [ext_resource type="Script" path="res://Scripts/crt_button.gd" id="2_crt"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/ChunkyButton.tscn" id="btn"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/EndpointFields.tscn" id="ep"]
 
 [sub_resource type="StyleBoxFlat" id="sb_panel"]
 bg_color = Color(0.02, 0.03, 0.04, 0.9)
@@ -47,9 +48,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -215.0
-offset_top = -120.0
+offset_top = -215.0
 offset_right = 215.0
-offset_bottom = 120.0
+offset_bottom = 215.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("sb_panel")
@@ -64,6 +65,12 @@ theme_override_font_sizes/font_size = 30
 text = "OPTIONS"
 horizontal_alignment = 1
 
+[node name="Endpoint" parent="Box/VBox" instance=ExtResource("ep")]
+layout_mode = 2
+
+[node name="Sep" type="HSeparator" parent="Box/VBox"]
+layout_mode = 2
+
 [node name="CrtToggle" type="Button" parent="Box/VBox"]
 script = ExtResource("2_crt")
 custom_minimum_size = Vector2(0, 50)
@@ -76,7 +83,7 @@ text = "Disable CRT mode"
 modulate = Color(1, 1, 1, 0.55)
 layout_mode = 2
 autowrap_mode = 2
-text = "Display only. Game settings live in the play menu."
+text = "Connection and display. Game settings live in the play menu."
 
 [node name="Back" parent="Box/VBox" instance=ExtResource("btn")]
 custom_minimum_size = Vector2(0, 50)
