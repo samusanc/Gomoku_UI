@@ -1,10 +1,14 @@
-[gd_scene load_steps=32 format=3]
+[gd_scene load_steps=48 format=3]
 
+[ext_resource type="Shader" path="res://Shaders/Background.gdshader" id="0_bg"]
 [ext_resource type="Shader" path="res://Shaders/Vignette.gdshader" id="1_vig"]
 [ext_resource type="Script" path="res://Scripts/StartButton.gd" id="2_start"]
 [ext_resource type="Script" path="res://Scripts/crt_button.gd" id="3_crtbtn"]
 [ext_resource type="Script" path="res://Scripts/menu_status.gd" id="4_status"]
 [ext_resource type="Script" path="res://Scripts/LoadWheel.gd" id="5_wheel"]
+[ext_resource type="Script" path="res://Scripts/main_menu.gd" id="6_root"]
+[ext_resource type="Script" path="res://Scripts/title_float.gd" id="7_float"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/GomokuTitle.png" id="8_title"]
 [ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_1.png" id="f1"]
 [ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_2.png" id="f2"]
 [ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_3.png" id="f3"]
@@ -30,11 +34,188 @@
 [ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_23.png" id="f23"]
 [ext_resource type="Texture2D" path="res://Assets/Textures/loading/frame_24.png" id="f24"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bg"]
+shader = ExtResource("0_bg")
+shader_parameter/polar_coordinates = false
+shader_parameter/polar_center = Vector2(0.5, 0.5)
+shader_parameter/polar_zoom = 1.0
+shader_parameter/polar_repeat = 1.0
+shader_parameter/spin_rotation = 0.0
+shader_parameter/spin_rotation_speed = 1.0
+shader_parameter/spin_speed = 2.0
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/colour_1 = Color(0.870588, 0.266667, 0.231373, 1)
+shader_parameter/colour_2 = Color(0, 0.419608, 0.705882, 1)
+shader_parameter/colour_3 = Color(0.0862745, 0.137255, 0.145098, 1)
+shader_parameter/contrast = 2.0
+shader_parameter/spin_amount = 0.36
+shader_parameter/pixel_filter = 700.0
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vig"]
 shader = ExtResource("1_vig")
 shader_parameter/outerRadius = 0.268
 shader_parameter/MainAlpha = 0.148
 shader_parameter/vignette_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_box"]
+bg_color = Color(0.03, 0.04, 0.05, 0.72)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.62, 0.71, 0.78, 0.35)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+content_margin_left = 22.0
+content_margin_top = 16.0
+content_margin_right = 22.0
+content_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxFlat" id="sb_play_n"]
+bg_color = Color(0.129412, 0.447059, 0.243137, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.352941, 0.803922, 0.454902, 0.55)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="sb_play_h"]
+bg_color = Color(0.180392, 0.580392, 0.301961, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.482353, 0.909804, 0.564706, 0.75)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="sb_play_p"]
+bg_color = Color(0.086275, 0.317647, 0.172549, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.352941, 0.803922, 0.454902, 0.55)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="sb_opt_n"]
+bg_color = Color(0.141176, 0.278431, 0.447059, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.400000, 0.600000, 0.850000, 0.55)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="sb_opt_h"]
+bg_color = Color(0.192157, 0.372549, 0.580392, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.541176, 0.721569, 0.929412, 0.75)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="sb_opt_p"]
+bg_color = Color(0.098039, 0.200000, 0.329412, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.400000, 0.600000, 0.850000, 0.55)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="sb_quit_n"]
+bg_color = Color(0.501961, 0.149020, 0.149020, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.850000, 0.400000, 0.400000, 0.55)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="sb_quit_h"]
+bg_color = Color(0.631373, 0.203922, 0.203922, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.929412, 0.541176, 0.541176, 0.75)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="sb_quit_p"]
+bg_color = Color(0.356863, 0.101961, 0.101961, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.850000, 0.400000, 0.400000, 0.55)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wheel"]
 blend_mode = 3
@@ -149,6 +330,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("6_root")
+
+[node name="Background" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_bg")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 1)
 
 [node name="Vignette" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_vig")
@@ -159,88 +351,203 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BlackUI" type="ColorRect" parent="."]
-custom_minimum_size = Vector2(400, 0)
-layout_mode = 1
-anchors_preset = 13
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.541176)
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+[node name="Title" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -150.0
-offset_right = 150.0
-offset_bottom = 150.0
+offset_left = -390.0
+offset_top = -232.0
+offset_right = 390.0
+offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 10
+texture = ExtResource("8_title")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("7_float")
 
-[node name="Title" type="Label" parent="Control/VBoxContainer"]
+[node name="StartMenu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Box" type="PanelContainer" parent="StartMenu"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -334.0
+offset_top = -144.0
+offset_right = 334.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_box")
+
+[node name="HBox" type="HBoxContainer" parent="StartMenu/Box"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 48
-text = "GOMOKU"
-horizontal_alignment = 1
+alignment = 1
+theme_override_constants/separation = 14
 
-[node name="Subtitle" type="Label" parent="Control/VBoxContainer"]
-modulate = Color(1, 1, 1, 0.6)
+[node name="Play" type="Button" parent="StartMenu/Box/HBox"]
+custom_minimum_size = Vector2(186, 62)
 layout_mode = 2
-text = "protocol console"
-horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.95, 0.97, 0.98, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("sb_play_n")
+theme_override_styles/hover = SubResource("sb_play_h")
+theme_override_styles/pressed = SubResource("sb_play_p")
+text = "PLAY"
 
-[node name="Status" type="RichTextLabel" parent="Control/VBoxContainer"]
-custom_minimum_size = Vector2(0, 40)
+[node name="Options" type="Button" parent="StartMenu/Box/HBox"]
+custom_minimum_size = Vector2(186, 62)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.97, 0.98, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("sb_opt_n")
+theme_override_styles/hover = SubResource("sb_opt_h")
+theme_override_styles/pressed = SubResource("sb_opt_p")
+text = "OPTIONS"
+
+[node name="Quit" type="Button" parent="StartMenu/Box/HBox"]
+custom_minimum_size = Vector2(186, 62)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.97, 0.98, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("sb_quit_n")
+theme_override_styles/hover = SubResource("sb_quit_h")
+theme_override_styles/pressed = SubResource("sb_quit_p")
+text = "QUIT"
+
+[node name="ConnectPanel" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Box" type="PanelContainer" parent="ConnectPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -170.0
+offset_top = -336.0
+offset_right = 170.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_box")
+
+[node name="VBox" type="VBoxContainer" parent="ConnectPanel/Box"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Status" type="RichTextLabel" parent="ConnectPanel/Box/VBox"]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 bbcode_enabled = true
 fit_content = true
 horizontal_alignment = 1
 script = ExtResource("4_status")
 
-[node name="Host" type="LineEdit" parent="Control/VBoxContainer"]
+[node name="Host" type="LineEdit" parent="ConnectPanel/Box/VBox"]
 layout_mode = 2
 placeholder_text = "HOST (127.0.0.1)"
 alignment = 1
 
-[node name="Port" type="LineEdit" parent="Control/VBoxContainer"]
+[node name="Port" type="LineEdit" parent="ConnectPanel/Box/VBox"]
 layout_mode = 2
 placeholder_text = "PORT (4242)"
 alignment = 1
 
-[node name="Play" type="Button" parent="Control/VBoxContainer"]
+[node name="Play" type="Button" parent="ConnectPanel/Box/VBox"]
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme_override_colors/font_color = Color(0.95, 0.97, 0.98, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("sb_play_n")
+theme_override_styles/hover = SubResource("sb_play_h")
+theme_override_styles/pressed = SubResource("sb_play_p")
 text = "PLAY"
 script = ExtResource("2_start")
 
-[node name="CrtToggle" type="Button" parent="Control/VBoxContainer"]
+[node name="CrtToggle" type="Button" parent="ConnectPanel/Box/VBox"]
 layout_mode = 2
-text = "Enable CRT mode"
+disabled = true
+text = "Disable CRT mode"
 script = ExtResource("3_crtbtn")
 
-[node name="LoadWheel" type="AnimatedSprite2D" parent="Control"]
+[node name="Back" type="Button" parent="ConnectPanel/Box/VBox"]
+layout_mode = 2
+text = "Back"
+
+[node name="OptionsPanel" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Box" type="PanelContainer" parent="OptionsPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -170.0
+offset_top = -216.0
+offset_right = 170.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_box")
+
+[node name="VBox" type="VBoxContainer" parent="OptionsPanel/Box"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="OptionsPanel/Box/VBox"]
+modulate = Color(1, 1, 1, 0.7)
+layout_mode = 2
+text = "No settings yet."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Back" type="Button" parent="OptionsPanel/Box/VBox"]
+layout_mode = 2
+text = "Back"
+
+[node name="LoadWheel" type="AnimatedSprite2D" parent="."]
 visible = false
 material = SubResource("CanvasItemMaterial_wheel")
-position = Vector2(576, 520)
+position = Vector2(576, 400)
 scale = Vector2(0.64, 0.64)
 sprite_frames = SubResource("SpriteFrames_wheel")
 script = ExtResource("5_wheel")
 
-[connection signal="pressed" from="Control/VBoxContainer/Play" to="Control/VBoxContainer/Play" method="_on_pressed"]
-[connection signal="pressed" from="Control/VBoxContainer/CrtToggle" to="Control/VBoxContainer/CrtToggle" method="_on_pressed"]
+[connection signal="pressed" from="StartMenu/Box/HBox/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="StartMenu/Box/HBox/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="StartMenu/Box/HBox/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="ConnectPanel/Box/VBox/Play" to="ConnectPanel/Box/VBox/Play" method="_on_pressed"]
+[connection signal="pressed" from="ConnectPanel/Box/VBox/CrtToggle" to="ConnectPanel/Box/VBox/CrtToggle" method="_on_pressed"]
+[connection signal="pressed" from="ConnectPanel/Box/VBox/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="OptionsPanel/Box/VBox/Back" to="." method="_on_back_pressed"]
