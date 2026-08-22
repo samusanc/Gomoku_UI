@@ -25,6 +25,7 @@ func _ready() -> void:
 	SignalBus.game_ended.connect(on_end)
 	SignalBus.game_started.connect(on_new_game)
 	SignalBus.move_rejected.connect(on_rejected)
+	SignalBus.hint_ready.connect(on_hint)
 	on_new_game("", "", "B")
 
 
@@ -69,6 +70,13 @@ func on_thought(_side: String, ms: int, depth: int, _nodes: int,
 	var average := total / samples.size()
 	timer_label.text = "AI  %d ms   avg %d ms   depth %d   score %d" \
 		% [ms, average, depth, score]
+
+
+## With no AI in the game the timer line would just read "--", so the hint
+## search time goes there instead. Against the AI its own stats stay put.
+func on_hint(_x: int, _y: int, ms: int, depth: int, score: int) -> void:
+	if GameState.ai_side == "":
+		timer_label.text = "Hint  %d ms   depth %d   score %d" % [ms, depth, score]
 
 
 func on_rejected(x: int, y: int, reason: String) -> void:

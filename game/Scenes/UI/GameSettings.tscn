@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/game_settings.gd" id="1_gs"]
+
+[node name="GameSettings" type="VBoxContainer"]
+theme_override_constants/separation = 8
+script = ExtResource("1_gs")
+
+[node name="Mode" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="./Mode"]
+custom_minimum_size = Vector2(148, 0)
+layout_mode = 2
+text = "Mode"
+
+[node name="Pick" type="OptionButton" parent="./Mode"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Colour" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="./Colour"]
+custom_minimum_size = Vector2(148, 0)
+layout_mode = 2
+text = "Your colour"
+
+[node name="Pick" type="OptionButton" parent="./Colour"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Ruleset" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="./Ruleset"]
+custom_minimum_size = Vector2(148, 0)
+layout_mode = 2
+text = "Ruleset"
+
+[node name="Pick" type="OptionButton" parent="./Ruleset"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Note" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.55)
+layout_mode = 2
+autowrap_mode = 2
+text = "You play the colour chosen above."
