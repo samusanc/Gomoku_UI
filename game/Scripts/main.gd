@@ -23,6 +23,7 @@ func _ready() -> void:
 	mat.set_shader_parameter("viewportLinear", view.get_texture())
 	set_crt(true)
 	SignalBus.start_game.connect(show_game)
+	SignalBus.leave_game.connect(leave_game)
 	SignalBus.enable_crt.connect(set_crt.bind(true))
 	SignalBus.disable_crt.connect(set_crt.bind(false))
 	show_scene(MENU_SCENE)
@@ -35,6 +36,12 @@ func set_crt(enabled: bool) -> void:
 
 func show_game() -> void:
 	show_scene(GAME_SCENE)
+
+
+## Back to the menu, connection dropped, so the next PLAY starts clean.
+func leave_game() -> void:
+	Network.set_zero()
+	show_scene(MENU_SCENE)
 
 
 ## Replace the viewport's content. The old child is detached before the new one

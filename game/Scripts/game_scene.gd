@@ -6,13 +6,11 @@ extends Control
 ## It starts a game only when the server says there is none, so reconnecting
 ## mid-game resumes instead of wiping the position.
 
-const DEFAULT_MODE := "pva"
-const DEFAULT_RULESET := "standard"
-const DEFAULT_HUMAN := "B"
 
 
 func _ready() -> void:
 	SignalBus.command.connect(on_command)
+	SignalBus.request_new_game.connect(new_game)
 	SignalBus.SceneLoaded = true
 	# ask for the position; if there is no game yet we start one below
 	Network.send_line("STATE")
@@ -24,15 +22,7 @@ func on_command(line: String) -> void:
 
 
 func new_game() -> void:
-	var mode := GameState.mode if GameState.mode != "" else DEFAULT_MODE
-	var ruleset := GameState.ruleset if GameState.ruleset != "" \
-		else DEFAULT_RULESET
-	var human := DEFAULT_HUMAN
-	if mode == "pvp":
-		human = "-"
-	elif GameState.ai_side == "B":
-		human = "W"
-	Network.send_line("NEW %s %s %s" % [mode, ruleset, human])
+	Network.send_line(Settings.new_game_line())
 
 
 func _on_hint_pressed() -> void:

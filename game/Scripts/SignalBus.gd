@@ -50,3 +50,9 @@ signal ai_thinking(side)
 signal ai_thought(side, ms, depth, nodes, score)
 signal hint_ready(x, y, ms, depth, score)
 signal game_ended(winner, reason)
+
+## The pause menu asked for a fresh game; game_scene owns the parameters.
+signal request_new_game()
+
+## Leave the game and go back to the main menu, dropping the connection.
+signal leave_game()
