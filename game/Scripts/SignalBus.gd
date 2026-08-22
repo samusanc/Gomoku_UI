@@ -32,3 +32,21 @@ signal hide_menu()
 
 signal enable_crt()
 signal disable_crt()
+
+## --- typed game events -------------------------------------------------
+## Produced by GameState from the raw `command` stream, so no widget has to
+## parse the wire format itself. Still pure presentation: the client decides
+## nothing, it only re-shapes what the server said.
+
+signal game_started(mode, ruleset, first)
+signal board_changed(cells)
+signal turn_changed(side, move_no)
+signal stone_placed(side, x, y, move_no)
+signal pair_captured(side, x1, y1, x2, y2)
+signal captures_changed(black, white)
+signal forbidden_changed(side, cells)
+signal move_rejected(x, y, reason)
+signal ai_thinking(side)
+signal ai_thought(side, ms, depth, nodes, score)
+signal hint_ready(x, y, ms, depth, score)
+signal game_ended(winner, reason)

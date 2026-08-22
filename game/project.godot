@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 SignalBus="*res://Scripts/SignalBus.gd"
 Network="*res://Scripts/Network.gd"
+GameState="*res://Scripts/GameState.gd"
 
 [display]
 
