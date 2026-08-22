@@ -2,7 +2,8 @@
 class_name ChunkyButton
 extends Button
 
-## The one menu button in the game: chunky white text with a hard shadow, on a
+## The one menu button in the game: chunky white text with a hard offset
+## shadow, on a
 ## flat face with a hard shadow of its own. Every menu button is either an
 ## instance of Scenes/UI/ChunkyButton.tscn or a script that extends this, so the
 ## look lives in exactly one place.
@@ -29,7 +30,7 @@ const BORDER := 2
 
 const SHADOW_COLOUR := Color(0.0, 0.0, 0.0, 0.85)
 const TEXT_SHADOW_COLOUR := Color(0.0, 0.0, 0.0, 0.9)
-const TEXT_SHADOW_OFFSET := 2
+const TEXT_SHADOW_OFFSET := Vector2i(2, 4)
 const TEXT_COLOUR := Color(0.97, 0.98, 1.0)
 const OUTLINE_COLOUR := Color(1.0, 1.0, 1.0)
 const CLEAR := Color(0, 0, 0, 0)
@@ -63,8 +64,9 @@ const TONES := {
 		chunk_size = value
 		restyle()
 
-## Thickness of the white text outline.
-@export var outline_thickness := 2:
+## Text outline thickness. 0 by default: the caption reads as plain white
+## glyphs with a hard shadow, no outline around them.
+@export var outline_thickness := 0:
 	set(value):
 		outline_thickness = value
 		restyle()
@@ -144,8 +146,8 @@ func style_caption() -> void:
 	caption.add_theme_color_override("font_outline_color", OUTLINE_COLOUR)
 	caption.add_theme_constant_override("outline_size", outline_thickness)
 	caption.add_theme_color_override("font_shadow_color", TEXT_SHADOW_COLOUR)
-	caption.add_theme_constant_override("shadow_offset_x", TEXT_SHADOW_OFFSET)
-	caption.add_theme_constant_override("shadow_offset_y", TEXT_SHADOW_OFFSET)
+	caption.add_theme_constant_override("shadow_offset_x", TEXT_SHADOW_OFFSET.x)
+	caption.add_theme_constant_override("shadow_offset_y", TEXT_SHADOW_OFFSET.y)
 	# 0 keeps the shadow the same shape as the glyph, so it stays a plain
 	# offset copy instead of growing a halo
 	caption.add_theme_constant_override("shadow_outline_size", 0)
