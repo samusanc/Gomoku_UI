@@ -19,22 +19,12 @@ const GRID_RIGHT := 0.960475
 const GRID_TOP := 0.045252
 const GRID_BOTTOM := 0.937536
 
-const STARS := [Vector2i(3, 3), Vector2i(3, 9), Vector2i(3, 15),
-	Vector2i(9, 3), Vector2i(9, 9), Vector2i(9, 15),
-	Vector2i(15, 3), Vector2i(15, 9), Vector2i(15, 15)]
-
-const COL_OVERLAY := Color(0.20, 1.0, 1.0, 0.50)
-const COL_OVERLAY_STAR := Color(0.35, 1.0, 1.0, 0.85)
 const COL_BLACK := Color(0.07, 0.08, 0.10)
 const COL_WHITE := Color(0.93, 0.95, 0.96)
 const COL_RIM := Color(0.0, 0.0, 0.0, 0.55)
 const COL_LAST := Color(1.0, 0.85, 0.25, 0.95)
 const COL_HINT := Color(0.45, 1.0, 0.55, 0.95)
 const COL_BAD := Color(1.0, 0.35, 0.35, 0.75)
-
-## Draws the computed grid over the artwork so the two can be checked against
-## each other. Turn off once the alignment is trusted.
-@export var show_grid_overlay := true
 
 var hover := Vector2i(-1, -1)
 var last_move := Vector2i(-1, -1)
@@ -156,21 +146,8 @@ func draw_stone(centre: Vector2, radius: float, colour: Color) -> void:
 
 func _draw() -> void:
 	draw_texture_rect(BOARD_TEX, board_rect(), false)
-	if show_grid_overlay:
-		draw_overlay_grid()
 	draw_stones()
 	draw_markers()
-
-
-## The grid we compute, drawn on top of the grid that is painted into the
-## artwork. Any drift between the two is visible immediately.
-func draw_overlay_grid() -> void:
-	for i in SIZE:
-		draw_line(cell_pos(0, i), cell_pos(SIZE - 1, i), COL_OVERLAY, 1.0)
-		draw_line(cell_pos(i, 0), cell_pos(i, SIZE - 1), COL_OVERLAY, 1.0)
-	for s in STARS:
-		draw_circle(cell_pos(s.x, s.y), maxf(2.0, step() * 0.10),
-			COL_OVERLAY_STAR)
 
 
 func draw_stones() -> void:
