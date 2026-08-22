@@ -9,7 +9,9 @@
 [ext_resource type="Script" path="res://Scripts/server_status.gd" id="5_status"]
 [ext_resource type="Script" path="res://Scripts/reconnection_button.gd" id="6_recon"]
 [ext_resource type="Script" path="res://Scripts/command_input.gd" id="7_input"]
+[ext_resource type="Script" path="res://Scripts/chunky_panel.gd" id="9_panel"]
 [ext_resource type="PackedScene" path="res://Scenes/PauseMenu.tscn" id="8_pause"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/WinScreen.tscn" id="10_win"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/ChunkyButton.tscn" id="btn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gamebg"]
@@ -22,38 +24,6 @@ shader_parameter/colour_3 = Color(0.42, 0, 0.09, 1)
 shader_parameter/contrast = 1.0
 shader_parameter/spin_amount = 1.05
 
-[sub_resource type="StyleBoxFlat" id="sb_side"]
-bg_color = Color(0.035, 0.045, 0.06, 0.90)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(1.0, 0.23, 0.23, 0.95)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-content_margin_left = 14.0
-content_margin_top = 12.0
-content_margin_right = 14.0
-content_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxFlat" id="sb_log"]
-bg_color = Color(0.0, 0.0, 0.0, 0.35)
-border_width_left = 0
-border_width_top = 0
-border_width_right = 0
-border_width_bottom = 0
-border_color = Color(1.0, 0.23, 0.23, 0.0)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-content_margin_left = 8.0
-content_margin_top = 6.0
-content_margin_right = 8.0
-content_margin_bottom = 6.0
-
 
 [node name="GameScene" type="Control"]
 layout_mode = 3
@@ -65,13 +35,13 @@ grow_vertical = 2
 script = ExtResource("1_root")
 
 [node name="Background" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_gamebg")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-material = SubResource("ShaderMaterial_gamebg")
 color = Color(1, 1, 1, 1)
 script = ExtResource("0_bgs")
 
@@ -100,9 +70,13 @@ size_flags_stretch_ratio = 2.0
 script = ExtResource("2_goban")
 
 [node name="Side" type="PanelContainer" parent="Margin/Split"]
-custom_minimum_size = Vector2(354, 0)
 layout_mode = 2
-theme_override_styles/panel = SubResource("sb_side")
+custom_minimum_size = Vector2(372, 0)
+size_flags_vertical = 3
+script = ExtResource("9_panel")
+face = Color(0.035, 0.045, 0.06, 0.9)
+edge = Color(1, 0.23, 0.23, 0.95)
+pad = Vector2i(12, 12)
 
 [node name="Menu" type="VBoxContainer" parent="Margin/Split/Side"]
 layout_mode = 2
@@ -126,7 +100,6 @@ layout_mode = 2
 size_flags_vertical = 4
 text = "Reconnect"
 chunk_size = 14
-outline_thickness = 2
 pad = Vector2i(9, 3)
 tone = 1
 
@@ -137,36 +110,37 @@ bbcode_enabled = true
 fit_content = true
 script = ExtResource("5_status")
 
-[node name="Sep1" type="HSeparator" parent="Margin/Split/Side/Menu"]
+[node name="HudBox" type="PanelContainer" parent="Margin/Split/Side/Menu"]
 layout_mode = 2
+script = ExtResource("9_panel")
+face = Color(0.055, 0.075, 0.105, 0.92)
+edge = Color(0.4, 0.6, 0.85, 0.55)
+pad = Vector2i(14, 10)
 
-[node name="Hud" type="VBoxContainer" parent="Margin/Split/Side/Menu"]
+[node name="Hud" type="VBoxContainer" parent="Margin/Split/Side/Menu/HudBox"]
 layout_mode = 2
 theme_override_constants/separation = 6
 script = ExtResource("3_hud")
 
-[node name="Turn" type="Label" parent="Margin/Split/Side/Menu/Hud"]
+[node name="Turn" type="Label" parent="Margin/Split/Side/Menu/HudBox/Hud"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 17
 text = "Move 1   Black (you)"
 
-[node name="Captures" type="Label" parent="Margin/Split/Side/Menu/Hud"]
+[node name="Captures" type="Label" parent="Margin/Split/Side/Menu/HudBox/Hud"]
 layout_mode = 2
 text = "Captures   B 0/10   W 0/10"
 
-[node name="Timer" type="Label" parent="Margin/Split/Side/Menu/Hud"]
+[node name="Timer" type="Label" parent="Margin/Split/Side/Menu/HudBox/Hud"]
 modulate = Color(0.66, 1, 0.72, 1)
 layout_mode = 2
 text = "AI  --"
 autowrap_mode = 2
 
-[node name="Result" type="Label" parent="Margin/Split/Side/Menu/Hud"]
+[node name="Result" type="Label" parent="Margin/Split/Side/Menu/HudBox/Hud"]
 modulate = Color(1, 0.86, 0.4, 1)
 layout_mode = 2
 autowrap_mode = 2
-
-[node name="Sep2" type="HSeparator" parent="Margin/Split/Side/Menu"]
-layout_mode = 2
 
 [node name="Actions" type="HBoxContainer" parent="Margin/Split/Side/Menu"]
 layout_mode = 2
@@ -199,7 +173,10 @@ text = "Resign"
 [node name="LogBox" type="PanelContainer" parent="Margin/Split/Side/Menu"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_styles/panel = SubResource("sb_log")
+script = ExtResource("9_panel")
+face = Color(0, 0, 0, 0.45)
+edge = Color(0.4, 0.6, 0.85, 0.3)
+pad = Vector2i(10, 8)
 
 [node name="Log" type="RichTextLabel" parent="Margin/Split/Side/Menu/LogBox"]
 layout_mode = 2
@@ -214,6 +191,9 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 12
 placeholder_text = "raw protocol line, enter to send"
 script = ExtResource("7_input")
+
+[node name="WinScreen" parent="." instance=ExtResource("10_win")]
+visible = false
 
 [node name="PauseMenu" parent="." instance=ExtResource("8_pause")]
 visible = false
