@@ -24,43 +24,67 @@ immediate connection, bypassing the menu.
 game/
 ├── project.godot
 ├── Scenes/
-│   ├── MainMenuUI.tscn      host + port + PLAY, title, spinner, CRT toggle
-│   ├── ConsoleScene.tscn    log view, link status, reconnect, send box
-│   └── GUI/crt.tscn         CRT filter overlay (autoloaded)
+│   ├── Main.tscn            persistent root: SubViewport + CRT post process
+│   ├── MainMenuUI.tscn      title, start bar, connect + options panels
+│   ├── GameScene.tscn       the board, HUD, actions, protocol log
+│   └── ConsoleScene.tscn    bare protocol console, kept for debugging
 ├── Scripts/
-│   ├── SignalBus.gd         global signals; nothing calls across scenes directly
+│   ├── SignalBus.gd         every cross scene signal
 │   ├── Network.gd           TCP link and line framing
-│   ├── scene_manager.gd     menu -> console on connect
-│   ├── StartButton.gd       reads the two fields, asks for a connection
-│   ├── menu_status.gd       shows why an attempt failed
-│   ├── LoadWheel.gd         spinner while connecting
-│   ├── console_view.gd      prints every received line
-│   ├── command_input.gd     sends a raw line typed by hand
-│   ├── server_status.gd     online / offline indicator
-│   ├── reconnection_button.gd
-│   ├── pause.gd             ESC brings the menu back
-│   ├── crt.gd / crt_button.gd
-├── Shaders/                 Vignette, CRT
-└── Assets/Textures/loading/ spinner frames
+│   ├── GameState.gd         parses the protocol once, holds the position
+│   ├── main.gd              swaps the viewport content, drives the CRT
+│   ├── main_menu.gd         menu routing
+│   ├── goban.gd             draws the board, turns clicks into MOVE
+│   ├── hud.gd               turn, captures, the mandatory AI timer
+│   ├── game_scene.gd        Hint / Rematch / Resign, starts a game
+│   └── ...                  title float, spinner, status, pause, input
+├── Shaders/                 CrtPost, GameBackground, Background, Vignette
+└── Assets/                  Fonts (Geist Pixel), Textures
 ```
+
+## Architecture
+
+**Everything renders into a SubViewport.** `Main.tscn` holds a
+`SubViewportContainer` carrying the CRT post process, and the menu or the game
+lives inside the viewport. That is why the CRT covers every button, label and
+image at once. Consequence: scenes are swapped by replacing the viewport child
+in `main.gd` — never with `change_scene_to_file`, which would destroy the root
+and the CRT with it.
+
+**One parser.** `GameState` is the only thing that reads the wire format. It
+turns raw lines into typed signals (`board_changed`, `turn_changed`,
+`ai_thought`, `pair_captured`, ...) and keeps the last known position, so no
+widget parses protocol text and a late widget can just ask. Parsing is not
+rules: every value it holds was decided by the server.
+
+**The board is one Control.** `goban.gd` draws the grid, stones and markers in
+a single `_draw()` rather than with 361 nodes, and converts a click into
+`MOVE x y`. It never decides legality — an illegal click just earns a `REJECT`
+which the HUD shows.
 
 ## How a line travels
 
 ```
 server socket
-  -> Network.read_available()      raw bytes appended to recv_buffer
-  -> Network.drain_lines()         split on \n, partial tail kept for next poll
-  -> SignalBus.command             one whole line, newline stripped
-  -> console_view.on_command()     printed to the log and to stdout
+  -> Network.read_available()    raw bytes into recv_buffer
+  -> Network.drain_lines()       split on newline, partial tail kept
+  -> SignalBus.command           one whole line
+  -> GameState.on_command()      parsed once
+  -> SignalBus.board_changed etc typed events
+  -> goban / hud / log           draw only
 ```
 
-Lines that arrive before the console scene is ready are parked in
-`command_buffer` and flushed once `SignalBus.SceneLoaded` turns true. That is
-why the burst the server sends right after `HELLO` is never lost.
+Lines that arrive before the scene is ready are parked in `command_buffer` and
+flushed once `SignalBus.SceneLoaded` turns true.
 
 **No game logic lives here.** Legality, captures, free-threes, win detection
-and the AI are all the server's, per `../PROTOCOL.md`. The client's only job is
-to draw what it is told and to send what the user clicks.
+and the AI are all the server and engine, per `../PROTOCOL.md`.
+
+## The mandatory timer
+
+`hud.gd` counts locally from `THINKING` so the number visibly moves, then snaps
+to the server figure from `THOUGHT` and shows a running average. The average is
+what the subject grades, so both are on screen.
 
 ## Sending commands by hand
 
