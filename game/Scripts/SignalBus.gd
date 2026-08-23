@@ -3,9 +3,6 @@ extends Node
 ## Global event bus. Nothing in the client calls another node directly across
 ## scenes; everything goes through these signals.
 
-## True once the scene that consumes server lines is in the tree and ready.
-var SceneLoaded := false
-
 ## One complete protocol line arrived from the server, newline stripped.
 signal command(line)
 

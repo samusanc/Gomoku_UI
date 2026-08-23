@@ -24,6 +24,10 @@ var turn_seat := 0
 var room_code := ""
 var room_admin := -1
 var room_started := false
+
+## Recent raw lines, so a log widget created later can still show them.
+const BACKLOG_MAX := 200
+var backlog: Array[String] = []
 var finished := false
 var winner := "-"
 var forbidden: Array[Vector2i] = []
@@ -81,6 +85,9 @@ func is_forbidden(x: int, y: int) -> bool:
 
 
 func on_command(line: String) -> void:
+	backlog.append(line)
+	if backlog.size() > BACKLOG_MAX:
+		backlog.remove_at(0)
 	var p := line.split(" ")
 	match p[0]:
 		"GAME":
@@ -171,12 +178,15 @@ func read_seat(p: PackedStringArray) -> void:
 	SignalBus.seats_changed.emit(seats)
 
 
+## YOUSEAT lands after the ROOM and SEAT lines, so anything that cares whether
+## a seat is ours has to be told again once it arrives.
 func read_my_seats(p: PackedStringArray) -> void:
 	my_seats.clear()
 	if p.size() < 2:
 		return
 	for i in range(2, mini(p.size(), 2 + int(p[1]))):
 		my_seats.append(int(p[i]))
+	SignalBus.seats_changed.emit(seats)
 
 
 func read_captures(p: PackedStringArray) -> void:

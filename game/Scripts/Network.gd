@@ -17,10 +17,6 @@ var enable := false
 var tcp: StreamPeerTCP = null
 var connected := false
 
-## Lines that arrived before the consuming scene was ready.
-var command_buffer: Array[String] = []
-var flushed := false
-
 ## Bytes received so far that do not yet form a complete line.
 var recv_buffer := ""
 
@@ -49,15 +45,12 @@ func autoconnect(host: String, port: String) -> void:
 
 ## Drop every trace of the previous session so a reconnect starts clean.
 func set_zero() -> void:
-	flushed = false
-	command_buffer.clear()
 	recv_buffer = ""
 	connected = false
 	enable = false
 	if tcp != null:
 		tcp.disconnect_from_host()
 	tcp = null
-	SignalBus.SceneLoaded = false
 	reported_down = false
 
 
@@ -89,11 +82,6 @@ func error(message: String) -> void:
 func _process(_delta: float) -> void:
 	if not enable:
 		return
-	if SignalBus.SceneLoaded and not flushed:
-		for line in command_buffer:
-			SignalBus.command.emit(line)
-		command_buffer.clear()
-		flushed = true
 	listen()
 
 
@@ -154,12 +142,11 @@ func drain_lines() -> void:
 		newline = recv_buffer.find("\n")
 
 
-## Before the consuming scene exists, lines are parked instead of dropped.
+## Straight out. GameState is an autoload, so there is always something
+## listening; widgets read the position from it rather than needing to have
+## caught the raw line themselves.
 func deliver(line: String) -> void:
-	if SignalBus.SceneLoaded and flushed:
-		SignalBus.command.emit(line)
-	else:
-		command_buffer.append(line)
+	SignalBus.command.emit(line)
 
 
 ## Send one command. The newline is added here so callers never think about

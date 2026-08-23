@@ -11,7 +11,6 @@ extends Control
 func _ready() -> void:
 	SignalBus.command.connect(on_command)
 	SignalBus.request_new_game.connect(new_game)
-	SignalBus.SceneLoaded = true
 	# ask for the position; if there is no game yet we start one below
 	Network.send_line("STATE")
 

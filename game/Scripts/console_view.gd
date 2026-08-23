@@ -17,8 +17,9 @@ func _ready() -> void:
 	text = ""
 	SignalBus.command.connect(on_command)
 	SignalBus.new_message.connect(on_message)
-	SignalBus.SceneLoaded = true
-	on_message("[color=gray]-- console ready, waiting for server --[/color]")
+	for past in GameState.backlog:
+		on_command(past)
+	on_message("[color=gray]-- console ready --[/color]")
 
 
 ## One line straight off the socket. Also echoed to stdout so the same check
