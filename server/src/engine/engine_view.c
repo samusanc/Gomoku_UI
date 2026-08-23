@@ -1,4 +1,4 @@
-#include "engine.h"
+#include "room.h"
 
 /*
 ** Protocol name of a side. The engine has no notion of these letters; it only
@@ -26,7 +26,7 @@ int	side_to_move(t_session *session)
 ** Serialize the goban as one field of BOARD_CELLS characters, index
 ** y * 19 + x, which is exactly the engine's own move numbering.
 */
-void	view_board(t_server *server, t_session *session)
+void	view_board(t_server *server, t_room *room)
 {
 	char	cells[BOARD_CELLS + 1];
 	int		i;
@@ -35,36 +35,36 @@ void	view_board(t_server *server, t_session *session)
 	while (i < BOARD_CELLS)
 	{
 		cells[i] = '.';
-		if (session->state.board[i] > 0)
+		if (room->session.state.board[i] > 0)
 			cells[i] = 'b';
-		else if (session->state.board[i] < 0)
+		else if (room->session.state.board[i] < 0)
 			cells[i] = 'w';
 		i++;
 	}
 	cells[i] = '\0';
-	proto_broadcast(server, "BOARD %s", cells);
+	room_emit(server, room, "BOARD %s", cells);
 }
 
-void	view_turn(t_server *server, t_session *session)
+void	view_turn(t_server *server, t_room *room)
 {
-	proto_broadcast(server, "TURN %s %d", side_name(side_to_move(session)),
-		(int)session->state.turn + 1);
+	room_emit(server, room, "TURN %s %d %d",
+		side_name(side_to_move(&room->session)),
+		(int)room->session.state.turn + 1, seat_on_turn(room));
 }
 
 /*
 ** Everything a client needs to draw the position from scratch, in the order a
-** fresh UI wants it.
+** fresh UI wants it. The seat roster goes first so the player list is filled
+** before any move arrives.
 */
-void	view_snapshot(t_server *server, t_session *session)
+void	view_snapshot(t_server *server, t_room *room)
 {
-	proto_broadcast(server, "GAME %s %s B", session->mode, session->ruleset);
-	proto_broadcast(server, "PLAYER B %s -",
-		session->ai_side == SIDE_BLACK ? "ai" : "human");
-	proto_broadcast(server, "PLAYER W %s -",
-		session->ai_side == SIDE_WHITE ? "ai" : "human");
-	view_board(server, session);
-	proto_broadcast(server, "CAPTURES %d %d",
-		(int)session->state.captures[SIDE_BLACK],
-		(int)session->state.captures[SIDE_WHITE]);
-	view_turn(server, session);
+	room_view_seats(server, room);
+	room_emit(server, room, "GAME %s %s B", room->session.mode,
+		room->session.ruleset);
+	view_board(server, room);
+	room_emit(server, room, "CAPTURES %d %d",
+		(int)room->session.state.captures[SIDE_BLACK],
+		(int)room->session.state.captures[SIDE_WHITE]);
+	view_turn(server, room);
 }

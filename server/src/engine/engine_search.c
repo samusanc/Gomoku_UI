@@ -1,4 +1,4 @@
-#include "engine.h"
+#include "room.h"
 
 static double	now_ms(void)
 {
@@ -48,31 +48,43 @@ void	engine_search(t_session *session, t_search_result *result)
 	result->ms = (int)(now_ms() - start);
 }
 
-/*
-** Let the AI play if it is on turn. THOUGHT carries the authoritative think
-** time the UI must display; nodes is reported as 0 because the engine does
-** not expose a node counter yet.
-*/
-void	ai_take_turn(t_server *server, t_session *session)
+static void	ai_play_once(t_server *server, t_room *room)
 {
 	t_search_result	result;
 	int				side;
 
-	if (session->active == 0 || session->finished == 1)
-		return ;
-	side = side_to_move(session);
-	if (side != session->ai_side)
-		return ;
-	proto_broadcast(server, "THINKING %s", side_name(side));
-	engine_search(session, &result);
-	proto_broadcast(server, "THOUGHT %s %d %d 0 %d", side_name(side),
+	side = side_to_move(&room->session);
+	room_emit(server, room, "THINKING %s", side_name(side));
+	engine_search(&room->session, &result);
+	room_emit(server, room, "THOUGHT %s %d %d 0 %d", side_name(side),
 		result.ms, result.depth, result.score);
 	if (result.move < 0)
 	{
-		proto_broadcast(server, "ERROR internal engine returned no move");
+		room_emit(server, room, "ERROR internal engine returned no move");
+		room->session.finished = 1;
 		return ;
 	}
-	move_apply(server, session, result.move);
+	move_apply(server, room, result.move);
+}
+
+/*
+** Let every AI seat that is on turn play, one after another. With four seats
+** the rotation can hand two AI seats the move back to back, so this loops
+** rather than firing once.
+*/
+void	engine_advance(t_server *server, t_room *room)
+{
+	int	guard;
+
+	if (room == NULL || room->session.active == 0)
+		return ;
+	guard = 0;
+	while (room->session.finished == 0 && guard < MAX_SEATS
+		&& room->seats[seat_on_turn(room)].kind == SEAT_AI)
+	{
+		ai_play_once(server, room);
+		guard++;
+	}
 }
 
 /*
@@ -80,22 +92,18 @@ void	ai_take_turn(t_server *server, t_session *session)
 */
 void	cmd_suggest(t_server *server, t_client *client)
 {
-	t_session		*session;
+	t_room			*room;
 	t_search_result	result;
 
 	(void)server;
-	session = engine_session();
-	if (session->active == 0 || session->finished == 1)
-	{
-		proto_emit(client, "ERROR no_game nothing to suggest");
-		return ;
-	}
-	engine_search(session, &result);
+	room = room_of_client(client);
+	if (room == NULL || room->session.active == 0
+		|| room->session.finished == 1)
+		return ((void)proto_emit(client, "ERROR no_game nothing to suggest"));
+	engine_search(&room->session, &result);
 	if (result.move < 0)
-	{
-		proto_emit(client, "ERROR internal engine returned no move");
-		return ;
-	}
+		return ((void)proto_emit(client,
+				"ERROR internal engine returned no move"));
 	proto_emit(client, "HINT %d %d %d %d %d",
 		result.move % BOARD_SIDE, result.move / BOARD_SIDE,
 		result.ms, result.depth, result.score);

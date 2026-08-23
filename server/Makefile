@@ -27,7 +27,7 @@ SRCS		= \
 				./src/engine/engine_cmds.c \
 				./src/engine/engine_move.c \
 				./src/engine/engine_search.c \
-				./src/engine/engine_view.c \
+				./src/engine/engine_view.c 				./src/engine/engine_rooms.c 				./src/room/room_table.c 				./src/room/room_lookup.c 				./src/room/room_seats.c 				./src/room/room_view.c 				./src/room/room_tick.c \
 
 #============================= AI ENGINE ================================#
 

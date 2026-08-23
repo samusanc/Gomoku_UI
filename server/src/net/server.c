@@ -1,4 +1,5 @@
 #include "net.h"
+#include "engine.h"
 #include <errno.h>
 #include <netinet/in.h>
 #include <signal.h>
@@ -18,8 +19,9 @@ static void	on_stop_signal(int sig)
 }
 
 /*
-** Bind and listen on the loopback interface only. Returns -1 on any failure
-** so main can report it and exit; nothing here kills the process itself.
+** Bind and listen on every interface, so other machines on the LAN can join a
+** room. Returns -1 on any failure so main can report it and exit; nothing here
+** kills the process itself.
 */
 int	server_init(t_server *server, int port)
 {
@@ -38,7 +40,7 @@ int	server_init(t_server *server, int port)
 	setsockopt(server->listen_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 	memset(&addr, 0, sizeof(addr));
 	addr.sin_family = AF_INET;
-	addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+	addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	addr.sin_port = htons((unsigned short)port);
 	if (bind(server->listen_fd, (struct sockaddr *)&addr, sizeof(addr)) < 0)
 		return (-1);
@@ -56,18 +58,22 @@ int	server_init(t_server *server, int port)
 */
 int	server_run(t_server *server)
 {
-	fd_set	read_set;
-	int		fd;
+	struct timeval	wait;
+	fd_set			read_set;
+	int				fd;
 
 	while (g_stop == 0)
 	{
 		read_set = server->active;
-		if (select(server->max_fd + 1, &read_set, NULL, NULL, NULL) < 0)
+		wait.tv_sec = 1;
+		wait.tv_usec = 0;
+		if (select(server->max_fd + 1, &read_set, NULL, NULL, &wait) < 0)
 		{
 			if (errno == EINTR)
 				continue ;
 			return (-1);
 		}
+		engine_tick(server);
 		fd = 0;
 		while (fd <= server->max_fd)
 		{

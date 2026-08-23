@@ -1,62 +1,74 @@
-#include "engine.h"
+#include "room.h"
+#include <string.h>
 
 /*
-** NEW: reset the engine's state and announce the fresh position. The ruleset
-** string is only echoed back for the UI; selectable rulesets are a bonus the
-** engine does not implement yet.
+** NEW starts a local game: one room whose seats all belong to this client,
+** except the AI opponent in solo. Multiplayer uses CREATE and JOIN instead.
 */
+static void	seat_local(t_room *room, t_client *client, const char *mode,
+		const char *human)
+{
+	int	ai_seat;
+
+	room->seats[0].kind = SEAT_HUMAN;
+	room->seats[0].fd = client->fd;
+	room->seats[1].kind = SEAT_HUMAN;
+	room->seats[1].fd = client->fd;
+	room->admin_seat = 0;
+	if (strcmp(mode, "pva") != 0)
+		return ;
+	ai_seat = 1;
+	if (strcmp(human, "W") == 0)
+		ai_seat = 0;
+	room->seats[ai_seat].kind = SEAT_AI;
+	room->seats[ai_seat].fd = -1;
+}
+
 void	cmd_new(t_server *server, t_client *client, t_cmd *cmd)
 {
-	t_session	*session;
+	t_room	*room;
 
-	(void)client;
-	session = engine_session();
-	initialize_game_state(&session->state);
-	session->active = 1;
-	session->finished = 0;
-	snprintf(session->mode, sizeof(session->mode), "%s", proto_arg(cmd, 1));
-	snprintf(session->ruleset, sizeof(session->ruleset), "%s",
+	room = room_of_client(client);
+	if (room != NULL)
+		room_release(room);
+	room = room_create(2);
+	if (room == NULL)
+		return ((void)proto_emit(client, "ERROR internal no room free"));
+	snprintf(room->session.mode, sizeof(room->session.mode), "%s",
+		proto_arg(cmd, 1));
+	snprintf(room->session.ruleset, sizeof(room->session.ruleset), "%s",
 		proto_arg(cmd, 2));
-	session->ai_side = SIDE_NONE;
-	if (strcmp(session->mode, "pva") == 0)
-	{
-		session->ai_side = SIDE_WHITE;
-		if (strcmp(proto_arg(cmd, 3), "W") == 0)
-			session->ai_side = SIDE_BLACK;
-	}
-	view_snapshot(server, session);
-	ai_take_turn(server, session);
+	seat_local(room, client, proto_arg(cmd, 1), proto_arg(cmd, 3));
+	room->session.active = 1;
+	room->session.finished = 0;
+	room->started = 1;
+	view_snapshot(server, room);
+	engine_advance(server, room);
 }
 
 void	cmd_state(t_server *server, t_client *client)
 {
-	t_session	*session;
+	t_room	*room;
 
-	session = engine_session();
-	if (session->active == 0)
-	{
-		proto_emit(client, "ERROR no_game no game in progress");
-		return ;
-	}
-	view_snapshot(server, session);
+	room = room_of_client(client);
+	if (room == NULL || room->session.active == 0)
+		return ((void)proto_emit(client, "ERROR no_game no game in progress"));
+	view_snapshot(server, room);
 }
 
 void	cmd_resign(t_server *server, t_client *client)
 {
-	t_session	*session;
-	int			loser;
+	t_room	*room;
+	int		loser;
 
-	(void)client;
-	session = engine_session();
-	if (session->active == 0 || session->finished == 1)
-	{
-		proto_emit(client, "ERROR no_game nothing to resign");
-		return ;
-	}
-	loser = side_to_move(session);
-	session->finished = 1;
+	room = room_of_client(client);
+	if (room == NULL || room->session.active == 0
+		|| room->session.finished == 1)
+		return ((void)proto_emit(client, "ERROR no_game nothing to resign"));
+	loser = side_to_move(&room->session);
+	room->session.finished = 1;
 	if (loser == SIDE_BLACK)
-		proto_broadcast(server, "END W resign");
+		room_emit(server, room, "END W resign");
 	else
-		proto_broadcast(server, "END B resign");
+		room_emit(server, room, "END B resign");
 }

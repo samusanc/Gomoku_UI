@@ -1,9 +1,26 @@
-#include "engine.h"
+#include "room.h"
+#include <string.h>
 
 /*
-** Route one parsed command to the engine. Anything the engine cannot answer
-** yet is refused explicitly, never silently ignored.
+** Route one parsed command. Anything the engine cannot answer yet is refused
+** explicitly, never silently ignored.
 */
+static void	dispatch_room(t_server *server, t_client *client, t_cmd *cmd)
+{
+	if (proto_is(cmd, "CREATE"))
+		cmd_create(server, client, cmd);
+	else if (proto_is(cmd, "JOIN"))
+		cmd_join(server, client, cmd);
+	else if (proto_is(cmd, "ADDAI"))
+		cmd_addai(server, client);
+	else if (proto_is(cmd, "BEGIN"))
+		cmd_begin(server, client);
+	else if (proto_is(cmd, "LEAVE"))
+		cmd_leave(server, client);
+	else
+		proto_emit(client, "ERROR unknown_command %s", proto_arg(cmd, 0));
+}
+
 void	engine_handle(t_server *server, t_client *client, t_cmd *cmd)
 {
 	if (proto_is(cmd, "HELLO"))
@@ -28,5 +45,5 @@ void	engine_handle(t_server *server, t_client *client, t_cmd *cmd)
 	else if (proto_is(cmd, "BYE"))
 		client_remove(server, client->fd);
 	else
-		proto_emit(client, "ERROR unknown_command %s", proto_arg(cmd, 0));
+		dispatch_room(server, client, cmd);
 }
