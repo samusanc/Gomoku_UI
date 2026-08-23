@@ -1,35 +1,55 @@
-[gd_scene load_steps=23 format=3]
+[gd_scene format=3 uid="uid://cujn82orjrany"]
 
-[ext_resource type="Shader" path="res://Shaders/GameBackground.gdshader" id="0_bg"]
-[ext_resource type="Shader" path="res://Shaders/TitleShine.gdshader" id="0_shine"]
-[ext_resource type="Script" path="res://Scripts/game_background.gd" id="0_bgs"]
-[ext_resource type="Script" path="res://Scripts/game_scene.gd" id="1_root"]
-[ext_resource type="Script" path="res://Scripts/goban.gd" id="2_goban"]
-[ext_resource type="Script" path="res://Scripts/hud.gd" id="3_hud"]
-[ext_resource type="Script" path="res://Scripts/console_view.gd" id="4_log"]
-[ext_resource type="Script" path="res://Scripts/server_status.gd" id="5_status"]
-[ext_resource type="Script" path="res://Scripts/reconnection_button.gd" id="6_recon"]
-[ext_resource type="Script" path="res://Scripts/command_input.gd" id="7_input"]
-[ext_resource type="Script" path="res://Scripts/chunky_panel.gd" id="9_panel"]
-[ext_resource type="Script" path="res://Scripts/player_strip.gd" id="11_strip"]
-[ext_resource type="Script" path="res://Scripts/float_motion.gd" id="12_float"]
-[ext_resource type="Script" path="res://Scripts/score_box.gd" id="14_score"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/GomokuTitle.png" id="13_title"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/stone_white.png" id="15_sw"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/stone_black.png" id="16_sb"]
+[ext_resource type="Shader" uid="uid://dnnr7onxd8xhp" path="res://Shaders/GameBackground.gdshader" id="0_bg"]
+[ext_resource type="Script" uid="uid://d4ewu0i3rkte7" path="res://Scripts/game_background.gd" id="0_bgs"]
+[ext_resource type="Shader" uid="uid://5cqml6ruhsul" path="res://Shaders/TitleShine.gdshader" id="0_shine"]
+[ext_resource type="Script" uid="uid://ckowsnlmmm7sc" path="res://Scripts/game_scene.gd" id="1_root"]
+[ext_resource type="Script" uid="uid://dab0o04mp05xh" path="res://Scripts/goban.gd" id="2_goban"]
+[ext_resource type="Script" uid="uid://c7ilx4no46ibk" path="res://Scripts/hud.gd" id="3_hud"]
+[ext_resource type="Script" uid="uid://cpluelk8h3jrx" path="res://Scripts/console_view.gd" id="4_log"]
+[ext_resource type="Script" uid="uid://bg03guidydfw7" path="res://Scripts/server_status.gd" id="5_status"]
+[ext_resource type="Script" uid="uid://cboajh3y5xbpd" path="res://Scripts/reconnection_button.gd" id="6_recon"]
+[ext_resource type="Script" uid="uid://bq7gab71cgn46" path="res://Scripts/command_input.gd" id="7_input"]
 [ext_resource type="PackedScene" path="res://Scenes/PauseMenu.tscn" id="8_pause"]
+[ext_resource type="Script" uid="uid://dklnv4dfeyjvd" path="res://Scripts/chunky_panel.gd" id="9_panel"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/WinScreen.tscn" id="10_win"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/ChunkyButton.tscn" id="btn"]
+[ext_resource type="Script" uid="uid://dqhtex8c15576" path="res://Scripts/player_strip.gd" id="11_strip"]
+[ext_resource type="Script" uid="uid://dbqtljfls046p" path="res://Scripts/float_motion.gd" id="12_float"]
+[ext_resource type="Texture2D" uid="uid://c7mannqynhp6t" path="res://Assets/Textures/GomokuTitle.png" id="13_title"]
+[ext_resource type="Script" uid="uid://c0cri8yiqyhjw" path="res://Scripts/score_box.gd" id="14_score"]
+[ext_resource type="Texture2D" uid="uid://cibvkjivgkb4d" path="res://Assets/Textures/stone_white.png" id="15_sw"]
+[ext_resource type="Texture2D" uid="uid://cfu3q37xcan2h" path="res://Assets/Textures/stone_black.png" id="16_sb"]
+[ext_resource type="PackedScene" uid="uid://dis2sdtwqu4bb" path="res://Scenes/UI/ChunkyButton.tscn" id="btn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gamebg"]
 shader = ExtResource("0_bg")
 shader_parameter/time_val = 0.0
 shader_parameter/spin_time = 0.0
-shader_parameter/colour_1 = Color(0, 0, 0, 1)
-shader_parameter/colour_2 = Color(0, 0.16, 0.36, 1)
-shader_parameter/colour_3 = Color(0.42, 0, 0.09, 1)
+shader_parameter/colour_1 = Color(0.20519236, 0.44801956, 0.3751125, 1)
+shader_parameter/colour_2 = Color(0.21075729, 0.68265253, 0.5236745, 1)
+shader_parameter/colour_3 = Color(0.07237405, 0.37273735, 0.28263408, 1)
 shader_parameter/contrast = 1.0
 shader_parameter/spin_amount = 1.05
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pgw7i"]
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+bg_color = Color(0.16, 0.2, 0.27, 0.93)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.23, 0.23, 0.95)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_shine"]
 shader = ExtResource("0_shine")
@@ -40,8 +60,441 @@ shader_parameter/pause_duration = 0.15
 shader_parameter/offset = 2.0
 shader_parameter/pixelate_line = 1
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v7xhk"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.22, 0.27, 0.35, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.48, 0.62, 0.86, 0.55)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
 
-[node name="GameScene" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wukv0"]
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+bg_color = Color(0.09, 0.1, 0.13, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5, 0.56, 0.66, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hgvmy"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.22, 0.27, 0.35, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.48, 0.62, 0.86, 0.55)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ebcm8"]
+content_margin_left = 16.0
+content_margin_top = 2.0
+content_margin_right = 16.0
+content_margin_bottom = 2.0
+bg_color = Color(0.88, 0.9, 0.94, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.6, 0.7, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4v654"]
+content_margin_left = 16.0
+content_margin_top = 2.0
+content_margin_right = 16.0
+content_margin_bottom = 2.0
+bg_color = Color(0.09, 0.1, 0.13, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5, 0.56, 0.66, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_leul7"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+bg_color = Color(0.22, 0.27, 0.35, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.48, 0.62, 0.86, 0.55)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wp4mh"]
+content_margin_left = 18.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.129, 0.447, 0.243, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.353, 0.804, 0.455, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y0yaw"]
+content_margin_left = 18.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.086, 0.318, 0.173, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.353, 0.804, 0.455, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 1
+shadow_offset = Vector2(1, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yl3ua"]
+content_margin_left = 18.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.18, 0.58, 0.302, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.482, 0.91, 0.565, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lko2l"]
+content_margin_left = 18.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.14, 0.15, 0.17, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.42, 0.44, 0.47, 0.45)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_em6uu"]
+content_margin_left = 18.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.18, 0.58, 0.302, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.482, 0.91, 0.565, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_odb6r"]
+content_margin_left = 18.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.141, 0.278, 0.447, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.6, 0.85, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p4lnl"]
+content_margin_left = 18.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.098, 0.2, 0.329, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.6, 0.85, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 1
+shadow_offset = Vector2(1, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6gwdq"]
+content_margin_left = 18.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.192, 0.373, 0.58, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.541, 0.722, 0.929, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rsfko"]
+content_margin_left = 18.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.14, 0.15, 0.17, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.42, 0.44, 0.47, 0.45)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_82uqo"]
+content_margin_left = 18.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.192, 0.373, 0.58, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.541, 0.722, 0.929, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bl770"]
+content_margin_left = 18.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.502, 0.149, 0.149, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.4, 0.4, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1dmga"]
+content_margin_left = 18.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.357, 0.102, 0.102, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.4, 0.4, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 1
+shadow_offset = Vector2(1, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cxw7u"]
+content_margin_left = 18.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.631, 0.204, 0.204, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.929, 0.541, 0.541, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jmmro"]
+content_margin_left = 18.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.14, 0.15, 0.17, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.42, 0.44, 0.47, 0.45)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vgicg"]
+content_margin_left = 18.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.631, 0.204, 0.204, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.929, 0.541, 0.541, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sjxqr"]
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+bg_color = Color(0.1, 0.13, 0.19, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.48, 0.62, 0.86, 0.3)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+anti_aliasing = false
+
+[node name="GameScene" type="Control" unique_id=1753619076]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,7 +503,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_root")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=523383335]
 material = SubResource("ShaderMaterial_gamebg")
 layout_mode = 1
 anchors_preset = 15
@@ -58,10 +511,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(1, 1, 1, 1)
 script = ExtResource("0_bgs")
 
-[node name="Margin" type="MarginContainer" parent="."]
+[node name="Margin" type="MarginContainer" parent="." unique_id=131140756]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -73,28 +525,29 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 26
 theme_override_constants/margin_bottom = 20
 
-[node name="Split" type="HBoxContainer" parent="Margin"]
+[node name="Split" type="HBoxContainer" parent="Margin" unique_id=169299212]
 layout_mode = 2
 theme_override_constants/separation = 18
 
-[node name="Side" type="PanelContainer" parent="Margin/Split"]
-layout_mode = 2
+[node name="Side" type="PanelContainer" parent="Margin/Split" unique_id=261997558]
 custom_minimum_size = Vector2(376, 0)
+layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_pgw7i")
 script = ExtResource("9_panel")
-face = Color(0.16, 0.20, 0.27, 0.93)
+face = Color(0.16, 0.2, 0.27, 0.93)
 edge = Color(1, 0.23, 0.23, 0.95)
 pad = Vector2i(12, 10)
 
-[node name="Menu" type="VBoxContainer" parent="Margin/Split/Side"]
+[node name="Menu" type="VBoxContainer" parent="Margin/Split/Side" unique_id=13057028]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="TitleSlot" type="Control" parent="Margin/Split/Side/Menu"]
+[node name="TitleSlot" type="Control" parent="Margin/Split/Side/Menu" unique_id=1893903153]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 
-[node name="TitleFloat" type="Control" parent="Margin/Split/Side/Menu/TitleSlot"]
+[node name="TitleFloat" type="Control" parent="Margin/Split/Side/Menu/TitleSlot" unique_id=441810099]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -108,23 +561,23 @@ bob_speed = 0.95
 tilt_degrees = 0.5
 tilt_speed = 0.6
 
-[node name="Title" type="TextureRect" parent="Margin/Split/Side/Menu/TitleSlot/TitleFloat"]
+[node name="Title" type="TextureRect" parent="Margin/Split/Side/Menu/TitleSlot/TitleFloat" unique_id=1737319278]
+material = SubResource("ShaderMaterial_shine")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-material = SubResource("ShaderMaterial_shine")
 texture = ExtResource("13_title")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="TopBar" type="HBoxContainer" parent="Margin/Split/Side/Menu"]
+[node name="TopBar" type="HBoxContainer" parent="Margin/Split/Side/Menu" unique_id=1684446994]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Status" type="RichTextLabel" parent="Margin/Split/Side/Menu/TopBar"]
+[node name="Status" type="RichTextLabel" parent="Margin/Split/Side/Menu/TopBar" unique_id=257766948]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -132,52 +585,53 @@ bbcode_enabled = true
 fit_content = true
 script = ExtResource("5_status")
 
-[node name="Reconnect" type="Button" parent="Margin/Split/Side/Menu/TopBar"]
-script = ExtResource("6_recon")
+[node name="Reconnect" type="Button" parent="Margin/Split/Side/Menu/TopBar" unique_id=293176025]
 custom_minimum_size = Vector2(0, 34)
 layout_mode = 2
 size_flags_vertical = 4
 text = "Reconnect"
+script = ExtResource("6_recon")
 chunk_size = 14
 pad = Vector2i(9, 3)
-tone = 1
 
-[node name="StripBox" type="PanelContainer" parent="Margin/Split/Side/Menu"]
+[node name="StripBox" type="PanelContainer" parent="Margin/Split/Side/Menu" unique_id=1941729527]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_v7xhk")
 script = ExtResource("9_panel")
 face = Color(0.22, 0.27, 0.35, 0.9)
 edge = Color(0.48, 0.62, 0.86, 0.55)
 pad = Vector2i(12, 8)
 
-[node name="Strip" type="VBoxContainer" parent="Margin/Split/Side/Menu/StripBox"]
+[node name="Strip" type="VBoxContainer" parent="Margin/Split/Side/Menu/StripBox" unique_id=118956830]
 layout_mode = 2
 theme_override_constants/separation = 6
 script = ExtResource("11_strip")
 
-[node name="Current" type="PanelContainer" parent="Margin/Split/Side/Menu/StripBox/Strip"]
+[node name="Current" type="PanelContainer" parent="Margin/Split/Side/Menu/StripBox/Strip" unique_id=1647148021]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wukv0")
 script = ExtResource("9_panel")
-face = Color(0.09, 0.10, 0.13, 0.96)
-edge = Color(0.50, 0.56, 0.66, 0.8)
+face = Color(0.09, 0.1, 0.13, 0.96)
+edge = Color(0.5, 0.56, 0.66, 0.8)
 pad = Vector2i(10, 6)
 
-[node name="Row" type="HBoxContainer" parent="Margin/Split/Side/Menu/StripBox/Strip/Current"]
+[node name="Row" type="HBoxContainer" parent="Margin/Split/Side/Menu/StripBox/Strip/Current" unique_id=513579172]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Stone" type="TextureRect" parent="Margin/Split/Side/Menu/StripBox/Strip/Current/Row"]
+[node name="Stone" type="TextureRect" parent="Margin/Split/Side/Menu/StripBox/Strip/Current/Row" unique_id=1792873407]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Face" type="TextureRect" parent="Margin/Split/Side/Menu/StripBox/Strip/Current/Row"]
+[node name="Face" type="TextureRect" parent="Margin/Split/Side/Menu/StripBox/Strip/Current/Row" unique_id=1978852431]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Name" type="Label" parent="Margin/Split/Side/Menu/StripBox/Strip/Current/Row"]
+[node name="Name" type="Label" parent="Margin/Split/Side/Menu/StripBox/Strip/Current/Row" unique_id=1102980634]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -185,36 +639,37 @@ theme_override_font_sizes/font_size = 16
 text = "Player 1"
 vertical_alignment = 1
 
-[node name="Queue" type="HBoxContainer" parent="Margin/Split/Side/Menu/StripBox/Strip"]
+[node name="Queue" type="HBoxContainer" parent="Margin/Split/Side/Menu/StripBox/Strip" unique_id=155185928]
 layout_mode = 2
 theme_override_constants/separation = 4
 alignment = 1
 
-[node name="ScoreBox" type="PanelContainer" parent="Margin/Split/Side/Menu"]
+[node name="ScoreBox" type="PanelContainer" parent="Margin/Split/Side/Menu" unique_id=93700243]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hgvmy")
 script = ExtResource("9_panel")
 face = Color(0.22, 0.27, 0.35, 0.9)
 edge = Color(0.48, 0.62, 0.86, 0.55)
 pad = Vector2i(12, 8)
 
-[node name="Score" type="VBoxContainer" parent="Margin/Split/Side/Menu/ScoreBox"]
+[node name="Score" type="VBoxContainer" parent="Margin/Split/Side/Menu/ScoreBox" unique_id=272102169]
 layout_mode = 2
 theme_override_constants/separation = 6
 script = ExtResource("14_score")
 
-[node name="Head" type="HBoxContainer" parent="Margin/Split/Side/Menu/ScoreBox/Score"]
+[node name="Head" type="HBoxContainer" parent="Margin/Split/Side/Menu/ScoreBox/Score" unique_id=1550509944]
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="White" type="TextureRect" parent="Margin/Split/Side/Menu/ScoreBox/Score/Head"]
+[node name="White" type="TextureRect" parent="Margin/Split/Side/Menu/ScoreBox/Score/Head" unique_id=1379139705]
 custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
 texture = ExtResource("15_sw")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Title" type="Label" parent="Margin/Split/Side/Menu/ScoreBox/Score/Head"]
+[node name="Title" type="Label" parent="Margin/Split/Side/Menu/ScoreBox/Score/Head" unique_id=750967054]
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
 theme_override_constants/shadow_offset_x = 2
@@ -222,135 +677,156 @@ theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 22
 text = "SCORE"
 
-[node name="Black" type="TextureRect" parent="Margin/Split/Side/Menu/ScoreBox/Score/Head"]
+[node name="Black" type="TextureRect" parent="Margin/Split/Side/Menu/ScoreBox/Score/Head" unique_id=431575709]
 custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
 texture = ExtResource("16_sb")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Row" type="HBoxContainer" parent="Margin/Split/Side/Menu/ScoreBox/Score"]
+[node name="Row" type="HBoxContainer" parent="Margin/Split/Side/Menu/ScoreBox/Score" unique_id=1506236437]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="White" type="PanelContainer" parent="Margin/Split/Side/Menu/ScoreBox/Score/Row"]
+[node name="White" type="PanelContainer" parent="Margin/Split/Side/Menu/ScoreBox/Score/Row" unique_id=714327840]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ebcm8")
 script = ExtResource("9_panel")
-face = Color(0.88, 0.90, 0.94, 0.96)
-edge = Color(0.55, 0.60, 0.70, 0.9)
+face = Color(0.88, 0.9, 0.94, 0.96)
+edge = Color(0.55, 0.6, 0.7, 0.9)
 pad = Vector2i(16, 2)
 
-[node name="Count" type="Label" parent="Margin/Split/Side/Menu/ScoreBox/Score/Row/White"]
+[node name="Count" type="Label" parent="Margin/Split/Side/Menu/ScoreBox/Score/Row/White" unique_id=822349434]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.1, 0.12, 0.16, 1)
 theme_override_font_sizes/font_size = 28
 text = "0"
 horizontal_alignment = 1
 
-[node name="X" type="Label" parent="Margin/Split/Side/Menu/ScoreBox/Score/Row"]
+[node name="X" type="Label" parent="Margin/Split/Side/Menu/ScoreBox/Score/Row" unique_id=647454073]
 modulate = Color(1, 1, 1, 0.7)
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "x"
 vertical_alignment = 1
 
-[node name="Black" type="PanelContainer" parent="Margin/Split/Side/Menu/ScoreBox/Score/Row"]
+[node name="Black" type="PanelContainer" parent="Margin/Split/Side/Menu/ScoreBox/Score/Row" unique_id=609483684]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_4v654")
 script = ExtResource("9_panel")
-face = Color(0.09, 0.10, 0.13, 0.96)
-edge = Color(0.50, 0.56, 0.66, 0.8)
+face = Color(0.09, 0.1, 0.13, 0.96)
+edge = Color(0.5, 0.56, 0.66, 0.8)
 pad = Vector2i(16, 2)
 
-[node name="Count" type="Label" parent="Margin/Split/Side/Menu/ScoreBox/Score/Row/Black"]
+[node name="Count" type="Label" parent="Margin/Split/Side/Menu/ScoreBox/Score/Row/Black" unique_id=359094028]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.93, 0.95, 0.98, 1)
 theme_override_font_sizes/font_size = 28
 text = "0"
 horizontal_alignment = 1
 
-[node name="HudBox" type="PanelContainer" parent="Margin/Split/Side/Menu"]
+[node name="HudBox" type="PanelContainer" parent="Margin/Split/Side/Menu" unique_id=1194912901]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_leul7")
 script = ExtResource("9_panel")
 face = Color(0.22, 0.27, 0.35, 0.9)
 edge = Color(0.48, 0.62, 0.86, 0.55)
-pad = Vector2i(14, 10)
 
-[node name="Hud" type="VBoxContainer" parent="Margin/Split/Side/Menu/HudBox"]
+[node name="Hud" type="VBoxContainer" parent="Margin/Split/Side/Menu/HudBox" unique_id=1288254134]
 layout_mode = 2
 theme_override_constants/separation = 6
 script = ExtResource("3_hud")
 
-[node name="Timer" type="Label" parent="Margin/Split/Side/Menu/HudBox/Hud"]
+[node name="Timer" type="Label" parent="Margin/Split/Side/Menu/HudBox/Hud" unique_id=633335181]
 modulate = Color(0.7, 1, 0.76, 1)
 layout_mode = 2
 text = "AI  --"
 autowrap_mode = 2
 
-[node name="Result" type="Label" parent="Margin/Split/Side/Menu/HudBox/Hud"]
+[node name="Result" type="Label" parent="Margin/Split/Side/Menu/HudBox/Hud" unique_id=72486177]
 modulate = Color(1, 0.88, 0.45, 1)
 layout_mode = 2
 autowrap_mode = 2
 
-[node name="Actions" type="HBoxContainer" parent="Margin/Split/Side/Menu"]
+[node name="Actions" type="HBoxContainer" parent="Margin/Split/Side/Menu" unique_id=1899294793]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Hint" parent="Margin/Split/Side/Menu/Actions" instance=ExtResource("btn")]
+[node name="Hint" parent="Margin/Split/Side/Menu/Actions" unique_id=1935227536 instance=ExtResource("btn")]
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 size_flags_horizontal = 3
-chunk_size = 17
-tone = 0
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_wp4mh")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_y0yaw")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yl3ua")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_lko2l")
+theme_override_styles/focus = SubResource("StyleBoxFlat_em6uu")
 text = "Hint"
+tone = 0
+chunk_size = 17
 
-[node name="Rematch" parent="Margin/Split/Side/Menu/Actions" instance=ExtResource("btn")]
+[node name="Rematch" parent="Margin/Split/Side/Menu/Actions" unique_id=575215418 instance=ExtResource("btn")]
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 size_flags_horizontal = 3
-chunk_size = 17
-tone = 1
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_odb6r")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_p4lnl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6gwdq")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_rsfko")
+theme_override_styles/focus = SubResource("StyleBoxFlat_82uqo")
 text = "Rematch"
+chunk_size = 17
 
-[node name="Resign" parent="Margin/Split/Side/Menu/Actions" instance=ExtResource("btn")]
+[node name="Resign" parent="Margin/Split/Side/Menu/Actions" unique_id=1755776863 instance=ExtResource("btn")]
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 size_flags_horizontal = 3
-chunk_size = 17
-tone = 2
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_bl770")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1dmga")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cxw7u")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_jmmro")
+theme_override_styles/focus = SubResource("StyleBoxFlat_vgicg")
 text = "Resign"
+tone = 2
+chunk_size = 17
 
-[node name="LogBox" type="PanelContainer" parent="Margin/Split/Side/Menu"]
+[node name="LogBox" type="PanelContainer" parent="Margin/Split/Side/Menu" unique_id=229564589]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_sjxqr")
 script = ExtResource("9_panel")
-face = Color(0.10, 0.13, 0.19, 0.8)
+face = Color(0.1, 0.13, 0.19, 0.8)
 edge = Color(0.48, 0.62, 0.86, 0.3)
 pad = Vector2i(10, 8)
 
-[node name="Log" type="RichTextLabel" parent="Margin/Split/Side/Menu/LogBox"]
+[node name="Log" type="RichTextLabel" parent="Margin/Split/Side/Menu/LogBox" unique_id=221395349]
 layout_mode = 2
+focus_mode = 2
 theme_override_font_sizes/normal_font_size = 12
 bbcode_enabled = true
 scroll_following = true
 selection_enabled = true
 script = ExtResource("4_log")
 
-[node name="Input" type="LineEdit" parent="Margin/Split/Side/Menu"]
+[node name="Input" type="LineEdit" parent="Margin/Split/Side/Menu" unique_id=605319193]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 placeholder_text = "raw protocol line, enter to send"
 script = ExtResource("7_input")
 
-[node name="BoardSlot" type="Control" parent="Margin/Split"]
+[node name="BoardSlot" type="Control" parent="Margin/Split" unique_id=1207692022]
 custom_minimum_size = Vector2(360, 360)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="BoardFloat" type="Control" parent="Margin/Split/BoardSlot"]
+[node name="BoardFloat" type="Control" parent="Margin/Split/BoardSlot" unique_id=853189054]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -364,22 +840,22 @@ bob_speed = 0.45
 tilt_degrees = 0.2
 tilt_speed = 0.28
 
-[node name="Goban" type="Control" parent="Margin/Split/BoardSlot/BoardFloat"]
+[node name="Goban" type="Control" parent="Margin/Split/BoardSlot/BoardFloat" unique_id=99755764]
+texture_filter = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture_filter = 2
 script = ExtResource("2_goban")
 hug_right = false
 
-[node name="WinScreen" parent="." instance=ExtResource("10_win")]
-visible = false
+[node name="WinScreen" parent="." unique_id=1848520115 instance=ExtResource("10_win")]
+layout_mode = 1
 
-[node name="PauseMenu" parent="." instance=ExtResource("8_pause")]
-visible = false
+[node name="PauseMenu" parent="." unique_id=670975077 instance=ExtResource("8_pause")]
+layout_mode = 1
 
 [connection signal="pressed" from="Margin/Split/Side/Menu/TopBar/Reconnect" to="Margin/Split/Side/Menu/TopBar/Reconnect" method="_on_pressed"]
 [connection signal="pressed" from="Margin/Split/Side/Menu/Actions/Hint" to="." method="_on_hint_pressed"]
