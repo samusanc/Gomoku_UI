@@ -75,7 +75,7 @@ func on_thought(_side: String, ms: int, depth: int, _nodes: int,
 ## With no AI in the game the timer line would just read "--", so the hint
 ## search time goes there instead. Against the AI its own stats stay put.
 func on_hint(_x: int, _y: int, ms: int, depth: int, score: int) -> void:
-	if GameState.ai_side == "":
+	if not GameState.has_ai():
 		timer_label.text = "Hint  %d ms   depth %d   score %d" % [ms, depth, score]
 
 

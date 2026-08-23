@@ -15,6 +15,15 @@ var captures := {"B": 0, "W": 0}
 var mode := ""
 var ruleset := ""
 var ai_side := ""
+
+## The room roster. seats[i] is {"kind": "human"|"ai"|"empty", "colour": "B"|"W"}
+var seats: Array[Dictionary] = []
+## Which of those seats this client controls, and which one is on turn.
+var my_seats: Array[int] = []
+var turn_seat := 0
+var room_code := ""
+var room_admin := -1
+var room_started := false
 var finished := false
 var winner := "-"
 var forbidden: Array[Vector2i] = []
@@ -34,6 +43,7 @@ func reset() -> void:
 	finished = false
 	winner = "-"
 	forbidden.clear()
+	turn_seat = 0
 
 
 ## Cell content as the protocol spells it: '.', 'b' or 'w'.
@@ -47,9 +57,23 @@ func is_empty(x: int, y: int) -> bool:
 	return cell(x, y) == "."
 
 
-## True when the side on turn is a human on this machine.
+## True when the seat on turn is one this client controls. With teams there can
+## be a human and an AI on the same colour, so the seat is the only thing that
+## answers this; the colour cannot.
 func is_human_turn() -> bool:
-	return not finished and side_to_move != ai_side
+	if finished:
+		return false
+	if my_seats.is_empty():
+		return side_to_move != ai_side
+	return my_seats.has(turn_seat)
+
+
+## Is any seat played by the engine? Drives whether the timer line is in use.
+func has_ai() -> bool:
+	for seat in seats:
+		if seat.get("kind", "") == "ai":
+			return true
+	return ai_side != ""
 
 
 func is_forbidden(x: int, y: int) -> bool:
@@ -70,6 +94,12 @@ func on_command(line: String) -> void:
 				SignalBus.board_changed.emit(cells)
 		"TURN":
 			read_turn(p)
+		"ROOM":
+			read_room(p)
+		"SEAT":
+			read_seat(p)
+		"YOUSEAT":
+			read_my_seats(p)
 		"PLACED":
 			if p.size() >= 5:
 				SignalBus.stone_placed.emit(p[1], int(p[2]), int(p[3]), int(p[4]))
@@ -114,7 +144,39 @@ func read_turn(p: PackedStringArray) -> void:
 		return
 	side_to_move = p[1]
 	move_no = int(p[2])
+	if p.size() >= 4:
+		turn_seat = int(p[3])
 	SignalBus.turn_changed.emit(side_to_move, move_no)
+
+
+func read_room(p: PackedStringArray) -> void:
+	if p.size() < 5:
+		return
+	room_code = p[1]
+	room_admin = int(p[3])
+	room_started = p[4] == "1"
+	seats.clear()
+	for i in int(p[2]):
+		seats.append({"kind": "empty", "colour": "B" if i % 2 == 0 else "W"})
+	SignalBus.room_changed.emit(room_code, room_admin, room_started)
+
+
+func read_seat(p: PackedStringArray) -> void:
+	if p.size() < 4:
+		return
+	var index := int(p[1])
+	while seats.size() <= index:
+		seats.append({"kind": "empty", "colour": "B"})
+	seats[index] = {"kind": p[2], "colour": p[3]}
+	SignalBus.seats_changed.emit(seats)
+
+
+func read_my_seats(p: PackedStringArray) -> void:
+	my_seats.clear()
+	if p.size() < 2:
+		return
+	for i in range(2, mini(p.size(), 2 + int(p[1]))):
+		my_seats.append(int(p[i]))
 
 
 func read_captures(p: PackedStringArray) -> void:

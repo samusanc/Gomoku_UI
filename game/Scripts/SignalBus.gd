@@ -56,3 +56,9 @@ signal request_new_game()
 
 ## Leave the game and go back to the main menu, dropping the connection.
 signal leave_game()
+
+## Room identity changed (code, admin seat, started).
+signal room_changed(code, admin_seat, started)
+
+## The seat roster changed; carries the whole array.
+signal seats_changed(seats)
