@@ -9,8 +9,8 @@ extends Control
 ## input so no stray click reaches the goban, and offers the actions that
 ## actually make sense mid game.
 
-@onready var resume_button: Button = $Box/VBox/Resume
-@onready var box: PanelContainer = $Box
+@onready var resume_button: Button = $Panel/Box/VBox/Resume
+@onready var box: Control = $Panel
 @onready var options: Control = $Options
 
 

@@ -1,25 +1,10 @@
 [gd_scene load_steps=6 format=3]
 
+[ext_resource type="PackedScene" path="res://Scenes/UI/FloatBox.tscn" id="fb"]
 [ext_resource type="Script" path="res://Scripts/options_panel.gd" id="1_opt"]
 [ext_resource type="Script" path="res://Scripts/crt_button.gd" id="2_crt"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/ChunkyButton.tscn" id="btn"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/EndpointFields.tscn" id="ep"]
-
-[sub_resource type="StyleBoxFlat" id="sb_panel"]
-bg_color = Color(0.02, 0.03, 0.04, 0.9)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.62, 0.71, 0.78, 0.35)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-content_margin_left = 26.0
-content_margin_top = 22.0
-content_margin_right = 26.0
-content_margin_bottom = 22.0
+[ext_resource type="PackedScene" path="res://Scenes/UI/ChunkyButton.tscn" id="btn"]
 
 [node name="OptionsPanel" type="Control"]
 layout_mode = 3
@@ -40,57 +25,45 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.55)
 
-[node name="Box" type="PanelContainer" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
+[node name="Panel" parent="." instance=ExtResource("fb")]
 offset_left = -215.0
 offset_top = -215.0
 offset_right = 215.0
 offset_bottom = 215.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("sb_panel")
 
-[node name="VBox" type="VBoxContainer" parent="Box"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Title" type="Label" parent="Box/VBox"]
+[node name="Title" type="Label" parent="Panel/Box/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "OPTIONS"
 horizontal_alignment = 1
 
-[node name="Endpoint" parent="Box/VBox" instance=ExtResource("ep")]
+[node name="Endpoint" parent="Panel/Box/VBox" instance=ExtResource("ep")]
 layout_mode = 2
 
-[node name="Sep" type="HSeparator" parent="Box/VBox"]
+[node name="Sep" type="HSeparator" parent="Panel/Box/VBox"]
 layout_mode = 2
 
-[node name="CrtToggle" type="Button" parent="Box/VBox"]
+[node name="CrtToggle" type="Button" parent="Panel/Box/VBox"]
 script = ExtResource("2_crt")
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+text = "Disable CRT mode"
 chunk_size = 20
 tone = 1
-text = "Disable CRT mode"
 
-[node name="Note" type="Label" parent="Box/VBox"]
+[node name="Note" type="Label" parent="Panel/Box/VBox"]
 modulate = Color(1, 1, 1, 0.55)
 layout_mode = 2
 autowrap_mode = 2
 text = "Connection and display. Game settings live in the play menu."
 
-[node name="Back" parent="Box/VBox" instance=ExtResource("btn")]
+[node name="Back" parent="Panel/Box/VBox" instance=ExtResource("btn")]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+size_flags_horizontal = 3
 chunk_size = 22
 tone = 1
 text = "Back"
 
-[connection signal="pressed" from="Box/VBox/CrtToggle" to="Box/VBox/CrtToggle" method="_on_pressed"]
-[connection signal="pressed" from="Box/VBox/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Panel/Box/VBox/CrtToggle" to="Panel/Box/VBox/CrtToggle" method="_on_pressed"]
+[connection signal="pressed" from="Panel/Box/VBox/Back" to="." method="_on_back_pressed"]

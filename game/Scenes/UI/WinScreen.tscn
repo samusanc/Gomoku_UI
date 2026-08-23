@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=5 format=3]
 
+[ext_resource type="PackedScene" path="res://Scenes/UI/FloatBox.tscn" id="fb"]
 [ext_resource type="Script" path="res://Scripts/win_screen.gd" id="1_win"]
-[ext_resource type="Script" path="res://Scripts/chunky_panel.gd" id="2_panel"]
-[ext_resource type="Script" path="res://Scripts/float_motion.gd" id="3_float"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/stone_white.png" id="st"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/ChunkyButton.tscn" id="btn"]
-[ext_resource type="Texture2D" path="res://Assets/Textures/stone_white.png" id="3_stone"]
 
 [node name="WinScreen" type="Control"]
 visible = false
@@ -26,40 +25,18 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.09, 0.26, 0.62, 0.62)
 
-[node name="Float" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
+[node name="Panel" parent="." instance=ExtResource("fb")]
 offset_left = -235.0
 offset_top = -258.0
 offset_right = 235.0
 offset_bottom = 258.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("3_float")
 
-[node name="Box" type="PanelContainer" parent="Float"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("2_panel")
+[node name="Box" parent="./Panel" index="0"]
 face = Color(0.03, 0.08, 0.18, 0.88)
 edge = Color(0.55, 0.75, 1, 0.7)
 pad = Vector2i(24, 22)
 
-[node name="VBox" type="VBoxContainer" parent="Float/Box"]
-layout_mode = 2
-theme_override_constants/separation = 14
-alignment = 1
-
-[node name="Headline" type="Label" parent="Float/Box/VBox"]
+[node name="Headline" type="Label" parent="Panel/Box/VBox"]
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
 theme_override_constants/shadow_offset_x = 3
@@ -68,24 +45,24 @@ theme_override_font_sizes/font_size = 42
 text = "WHITE WIN!"
 horizontal_alignment = 1
 
-[node name="Stone" type="TextureRect" parent="Float/Box/VBox"]
+[node name="Stone" type="TextureRect" parent="Panel/Box/VBox"]
 custom_minimum_size = Vector2(0, 168)
 layout_mode = 2
-texture = ExtResource("3_stone")
+texture = ExtResource("st")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Reason" type="Label" parent="Float/Box/VBox"]
+[node name="Reason" type="Label" parent="Panel/Box/VBox"]
 modulate = Color(1, 1, 1, 0.75)
 layout_mode = 2
 text = "by alignment"
 horizontal_alignment = 1
 
-[node name="Spacer" type="Control" parent="Float/Box/VBox"]
+[node name="Spacer" type="Control" parent="Panel/Box/VBox"]
 custom_minimum_size = Vector2(0, 6)
 layout_mode = 2
 
-[node name="Rematch" parent="Float/Box/VBox" instance=ExtResource("btn")]
+[node name="Rematch" parent="Panel/Box/VBox" instance=ExtResource("btn")]
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -93,7 +70,7 @@ chunk_size = 24
 tone = 0
 text = "Rematch"
 
-[node name="Menu" parent="Float/Box/VBox" instance=ExtResource("btn")]
+[node name="Menu" parent="Panel/Box/VBox" instance=ExtResource("btn")]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -101,7 +78,7 @@ chunk_size = 22
 tone = 1
 text = "Menu"
 
-[node name="Quit" parent="Float/Box/VBox" instance=ExtResource("btn")]
+[node name="Quit" parent="Panel/Box/VBox" instance=ExtResource("btn")]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -109,6 +86,6 @@ chunk_size = 22
 tone = 2
 text = "Quit"
 
-[connection signal="pressed" from="Float/Box/VBox/Rematch" to="." method="_on_rematch_pressed"]
-[connection signal="pressed" from="Float/Box/VBox/Menu" to="." method="_on_menu_pressed"]
-[connection signal="pressed" from="Float/Box/VBox/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Panel/Box/VBox/Rematch" to="." method="_on_rematch_pressed"]
+[connection signal="pressed" from="Panel/Box/VBox/Menu" to="." method="_on_menu_pressed"]
+[connection signal="pressed" from="Panel/Box/VBox/Quit" to="." method="_on_quit_pressed"]

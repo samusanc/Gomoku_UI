@@ -1,25 +1,9 @@
 [gd_scene load_steps=5 format=3]
 
+[ext_resource type="PackedScene" path="res://Scenes/UI/FloatBox.tscn" id="fb"]
 [ext_resource type="Script" path="res://Scripts/pause_menu.gd" id="1_pause"]
 [ext_resource type="PackedScene" path="res://Scenes/OptionsPanel.tscn" id="2_opt"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/ChunkyButton.tscn" id="btn"]
-
-[sub_resource type="StyleBoxFlat" id="sb_panel"]
-bg_color = Color(0.02, 0.03, 0.04, 0.88)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.62, 0.71, 0.78, 0.35)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-content_margin_left = 26.0
-content_margin_top = 22.0
-content_margin_right = 26.0
-content_margin_bottom = 22.0
-
 
 [node name="PauseMenu" type="Control"]
 visible = false
@@ -41,74 +25,66 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.66)
 
-[node name="Box" type="PanelContainer" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
+[node name="Panel" parent="." instance=ExtResource("fb")]
 offset_left = -180.0
 offset_top = -262.0
 offset_right = 180.0
 offset_bottom = 262.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("sb_panel")
 
-[node name="VBox" type="VBoxContainer" parent="Box"]
-layout_mode = 2
-theme_override_constants/separation = 12
-alignment = 1
-
-[node name="Title" type="Label" parent="Box/VBox"]
+[node name="Title" type="Label" parent="Panel/Box/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 34
 text = "PAUSED"
 horizontal_alignment = 1
 
-[node name="Spacer" type="Control" parent="Box/VBox"]
+[node name="Spacer" type="Control" parent="Panel/Box/VBox"]
 custom_minimum_size = Vector2(0, 6)
 layout_mode = 2
 
-[node name="Resume" parent="Box/VBox" instance=ExtResource("btn")]
+[node name="Resume" parent="Panel/Box/VBox" instance=ExtResource("btn")]
 custom_minimum_size = Vector2(270, 54)
 layout_mode = 2
+size_flags_horizontal = 3
 chunk_size = 24
 tone = 0
 text = "Resume"
 
-[node name="Options" parent="Box/VBox" instance=ExtResource("btn")]
+[node name="Options" parent="Panel/Box/VBox" instance=ExtResource("btn")]
 custom_minimum_size = Vector2(270, 50)
 layout_mode = 2
+size_flags_horizontal = 3
 chunk_size = 22
 tone = 1
 text = "Options"
 
-[node name="Rematch" parent="Box/VBox" instance=ExtResource("btn")]
+[node name="Rematch" parent="Panel/Box/VBox" instance=ExtResource("btn")]
 custom_minimum_size = Vector2(270, 50)
 layout_mode = 2
+size_flags_horizontal = 3
 chunk_size = 22
 tone = 1
 text = "Rematch"
 
-[node name="Resign" parent="Box/VBox" instance=ExtResource("btn")]
+[node name="Resign" parent="Panel/Box/VBox" instance=ExtResource("btn")]
 custom_minimum_size = Vector2(270, 50)
 layout_mode = 2
+size_flags_horizontal = 3
 chunk_size = 22
 tone = 1
 text = "Resign"
 
-[node name="Disconnect" parent="Box/VBox" instance=ExtResource("btn")]
+[node name="Disconnect" parent="Panel/Box/VBox" instance=ExtResource("btn")]
 custom_minimum_size = Vector2(270, 50)
 layout_mode = 2
+size_flags_horizontal = 3
 chunk_size = 22
 tone = 1
 text = "Disconnect"
 
-[node name="Quit" parent="Box/VBox" instance=ExtResource("btn")]
+[node name="Quit" parent="Panel/Box/VBox" instance=ExtResource("btn")]
 custom_minimum_size = Vector2(270, 50)
 layout_mode = 2
+size_flags_horizontal = 3
 chunk_size = 22
 tone = 2
 text = "Quit"
@@ -116,10 +92,10 @@ text = "Quit"
 [node name="Options" parent="." instance=ExtResource("2_opt")]
 visible = false
 
-[connection signal="pressed" from="Box/VBox/Resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="Box/VBox/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="Box/VBox/Rematch" to="." method="_on_rematch_pressed"]
-[connection signal="pressed" from="Box/VBox/Resign" to="." method="_on_resign_pressed"]
-[connection signal="pressed" from="Box/VBox/Disconnect" to="." method="_on_disconnect_pressed"]
-[connection signal="pressed" from="Box/VBox/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Panel/Box/VBox/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Panel/Box/VBox/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Panel/Box/VBox/Rematch" to="." method="_on_rematch_pressed"]
+[connection signal="pressed" from="Panel/Box/VBox/Resign" to="." method="_on_resign_pressed"]
+[connection signal="pressed" from="Panel/Box/VBox/Disconnect" to="." method="_on_disconnect_pressed"]
+[connection signal="pressed" from="Panel/Box/VBox/Quit" to="." method="_on_quit_pressed"]
 [connection signal="closed" from="Options" to="." method="_on_options_closed"]

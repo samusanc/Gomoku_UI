@@ -14,7 +14,7 @@ enum Mode {SOLO, LOCAL, ONLINE}
 
 const MODE_TITLES: Array[String] = ["SOLO", "LOCAL VS", "MULTIPLAYER"]
 
-@onready var cycler: Control = $ModeScreen/Box/VBox/Cycler
+@onready var cycler: Control = $ModeScreen/Panel/Box/VBox/Cycler
 @onready var screens := {
 	"mode": $ModeScreen,
 	"solo": $SoloScreen,
@@ -23,8 +23,8 @@ const MODE_TITLES: Array[String] = ["SOLO", "LOCAL VS", "MULTIPLAYER"]
 	"create": $CreateScreen,
 	"lobby": $LobbyScreen,
 }
-@onready var code_field: LineEdit = $OnlineScreen/Box/VBox/Code/Field
-@onready var seat_pick: Label = $CreateScreen/Box/VBox/Chosen
+@onready var code_field: LineEdit = $OnlineScreen/Panel/Box/VBox/Code/Field
+@onready var seat_pick: Label = $CreateScreen/Panel/Box/VBox/Chosen
 
 var mode := Mode.SOLO
 var seats_wanted := 2

@@ -10,12 +10,12 @@ const ICON_BOT := preload("res://Assets/Textures/icon_bot.png")
 const STONE_BLACK := preload("res://Assets/Textures/stone_black.png")
 const STONE_WHITE := preload("res://Assets/Textures/stone_white.png")
 
-@onready var code_label: Label = $Box/VBox/Head/Code
-@onready var copy_button: Button = $Box/VBox/Head/Copy
-@onready var rows: VBoxContainer = $Box/VBox/Players
-@onready var add_ai_button: Button = $Box/VBox/Admin/AddAi
-@onready var start_button: Button = $Box/VBox/Admin/Start
-@onready var hint: Label = $Box/VBox/Hint
+@onready var code_label: Label = $Panel/Box/VBox/Head/Code
+@onready var copy_button: Button = $Panel/Box/VBox/Head/Copy
+@onready var rows: VBoxContainer = $Panel/Box/VBox/Players
+@onready var add_ai_button: Button = $Panel/Box/VBox/Admin/AddAi
+@onready var start_button: Button = $Panel/Box/VBox/Admin/Start
+@onready var hint: Label = $Panel/Box/VBox/Hint
 
 
 func _ready() -> void:
