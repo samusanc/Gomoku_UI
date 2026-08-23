@@ -49,6 +49,7 @@ pad = Vector2i(24, 20)
 [node name="VBox" type="VBoxContainer" parent="ModeScreen/Box"]
 layout_mode = 2
 theme_override_constants/separation = 16
+alignment = 1
 
 [node name="Title" type="Label" parent="ModeScreen/Box/VBox"]
 modulate = Color(1, 1, 1, 0.6)
@@ -148,6 +149,7 @@ pad = Vector2i(24, 20)
 [node name="VBox" type="VBoxContainer" parent="SoloScreen/Box"]
 layout_mode = 2
 theme_override_constants/separation = 14
+alignment = 1
 
 [node name="Title" type="Label" parent="SoloScreen/Box/VBox"]
 modulate = Color(1, 1, 1, 0.6)
@@ -243,9 +245,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -235.0
-offset_top = -125.0
+offset_top = -130.0
 offset_right = 235.0
-offset_bottom = 125.0
+offset_bottom = 130.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("panel")
@@ -256,6 +258,7 @@ pad = Vector2i(24, 20)
 [node name="VBox" type="VBoxContainer" parent="LocalScreen/Box"]
 layout_mode = 2
 theme_override_constants/separation = 14
+alignment = 1
 
 [node name="Title" type="Label" parent="LocalScreen/Box/VBox"]
 layout_mode = 2
@@ -307,10 +310,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -245.0
-offset_top = -165.0
-offset_right = 245.0
-offset_bottom = 165.0
+offset_left = -235.0
+offset_top = -185.0
+offset_right = 235.0
+offset_bottom = 185.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("panel")
@@ -321,6 +324,7 @@ pad = Vector2i(24, 20)
 [node name="VBox" type="VBoxContainer" parent="OnlineScreen/Box"]
 layout_mode = 2
 theme_override_constants/separation = 14
+alignment = 1
 
 [node name="Title" type="Label" parent="OnlineScreen/Box/VBox"]
 layout_mode = 2
@@ -328,18 +332,20 @@ theme_override_font_sizes/font_size = 26
 text = "MULTIPLAYER"
 horizontal_alignment = 1
 
-[node name="Code" type="HBoxContainer" parent="OnlineScreen/Box/VBox"]
+[node name="Code" type="VBoxContainer" parent="OnlineScreen/Box/VBox"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 6
 
 [node name="Label" type="Label" parent="OnlineScreen/Box/VBox/Code"]
-custom_minimum_size = Vector2(110, 0)
+modulate = Color(1, 1, 1, 0.6)
 layout_mode = 2
 text = "Room code"
+horizontal_alignment = 1
 
 [node name="Field" type="LineEdit" parent="OnlineScreen/Box/VBox/Code"]
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
 placeholder_text = "ABCD"
 alignment = 1
 max_length = 4
@@ -402,6 +408,7 @@ pad = Vector2i(24, 20)
 [node name="VBox" type="VBoxContainer" parent="CreateScreen/Box"]
 layout_mode = 2
 theme_override_constants/separation = 14
+alignment = 1
 
 [node name="Title" type="Label" parent="CreateScreen/Box/VBox"]
 modulate = Color(1, 1, 1, 0.6)
@@ -489,6 +496,7 @@ pad = Vector2i(24, 20)
 [node name="VBox" type="VBoxContainer" parent="LobbyScreen/Box"]
 layout_mode = 2
 theme_override_constants/separation = 12
+alignment = 1
 
 [node name="Head" type="HBoxContainer" parent="LobbyScreen/Box/VBox"]
 layout_mode = 2
