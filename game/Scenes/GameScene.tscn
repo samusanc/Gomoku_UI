@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3]
+[gd_scene load_steps=23 format=3]
 
 [ext_resource type="Shader" path="res://Shaders/GameBackground.gdshader" id="0_bg"]
 [ext_resource type="Shader" path="res://Shaders/TitleShine.gdshader" id="0_shine"]
@@ -13,7 +13,10 @@
 [ext_resource type="Script" path="res://Scripts/chunky_panel.gd" id="9_panel"]
 [ext_resource type="Script" path="res://Scripts/player_strip.gd" id="11_strip"]
 [ext_resource type="Script" path="res://Scripts/float_motion.gd" id="12_float"]
+[ext_resource type="Script" path="res://Scripts/score_box.gd" id="14_score"]
 [ext_resource type="Texture2D" path="res://Assets/Textures/GomokuTitle.png" id="13_title"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/stone_white.png" id="15_sw"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/stone_black.png" id="16_sb"]
 [ext_resource type="PackedScene" path="res://Scenes/PauseMenu.tscn" id="8_pause"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/WinScreen.tscn" id="10_win"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/ChunkyButton.tscn" id="btn"]
@@ -65,44 +68,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 6
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 20
 
 [node name="Split" type="HBoxContainer" parent="Margin"]
 layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="BoardSlot" type="Control" parent="Margin/Split"]
-custom_minimum_size = Vector2(360, 360)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-
-[node name="BoardFloat" type="Control" parent="Margin/Split/BoardSlot"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("12_float")
-bob_pixels = 5.0
-bob_speed = 0.45
-tilt_degrees = 0.2
-tilt_speed = 0.28
-
-[node name="Goban" type="Control" parent="Margin/Split/BoardSlot/BoardFloat"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture_filter = 2
-script = ExtResource("2_goban")
+theme_override_constants/separation = 18
 
 [node name="Side" type="PanelContainer" parent="Margin/Split"]
 layout_mode = 2
@@ -184,8 +157,8 @@ script = ExtResource("11_strip")
 [node name="Current" type="PanelContainer" parent="Margin/Split/Side/Menu/StripBox/Strip"]
 layout_mode = 2
 script = ExtResource("9_panel")
-face = Color(0.12, 0.28, 0.19, 0.92)
-edge = Color(0.35, 0.8, 0.45, 0.75)
+face = Color(0.09, 0.10, 0.13, 0.96)
+edge = Color(0.50, 0.56, 0.66, 0.8)
 pad = Vector2i(10, 6)
 
 [node name="Row" type="HBoxContainer" parent="Margin/Split/Side/Menu/StripBox/Strip/Current"]
@@ -217,6 +190,87 @@ layout_mode = 2
 theme_override_constants/separation = 4
 alignment = 1
 
+[node name="ScoreBox" type="PanelContainer" parent="Margin/Split/Side/Menu"]
+layout_mode = 2
+script = ExtResource("9_panel")
+face = Color(0.22, 0.27, 0.35, 0.9)
+edge = Color(0.48, 0.62, 0.86, 0.55)
+pad = Vector2i(12, 8)
+
+[node name="Score" type="VBoxContainer" parent="Margin/Split/Side/Menu/ScoreBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+script = ExtResource("14_score")
+
+[node name="Head" type="HBoxContainer" parent="Margin/Split/Side/Menu/ScoreBox/Score"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="White" type="TextureRect" parent="Margin/Split/Side/Menu/ScoreBox/Score/Head"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+texture = ExtResource("15_sw")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Margin/Split/Side/Menu/ScoreBox/Score/Head"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 22
+text = "SCORE"
+
+[node name="Black" type="TextureRect" parent="Margin/Split/Side/Menu/ScoreBox/Score/Head"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+texture = ExtResource("16_sb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Row" type="HBoxContainer" parent="Margin/Split/Side/Menu/ScoreBox/Score"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="White" type="PanelContainer" parent="Margin/Split/Side/Menu/ScoreBox/Score/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("9_panel")
+face = Color(0.88, 0.90, 0.94, 0.96)
+edge = Color(0.55, 0.60, 0.70, 0.9)
+pad = Vector2i(16, 2)
+
+[node name="Count" type="Label" parent="Margin/Split/Side/Menu/ScoreBox/Score/Row/White"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.1, 0.12, 0.16, 1)
+theme_override_font_sizes/font_size = 28
+text = "0"
+horizontal_alignment = 1
+
+[node name="X" type="Label" parent="Margin/Split/Side/Menu/ScoreBox/Score/Row"]
+modulate = Color(1, 1, 1, 0.7)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "x"
+vertical_alignment = 1
+
+[node name="Black" type="PanelContainer" parent="Margin/Split/Side/Menu/ScoreBox/Score/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("9_panel")
+face = Color(0.09, 0.10, 0.13, 0.96)
+edge = Color(0.50, 0.56, 0.66, 0.8)
+pad = Vector2i(16, 2)
+
+[node name="Count" type="Label" parent="Margin/Split/Side/Menu/ScoreBox/Score/Row/Black"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.93, 0.95, 0.98, 1)
+theme_override_font_sizes/font_size = 28
+text = "0"
+horizontal_alignment = 1
+
 [node name="HudBox" type="PanelContainer" parent="Margin/Split/Side/Menu"]
 layout_mode = 2
 script = ExtResource("9_panel")
@@ -228,15 +282,6 @@ pad = Vector2i(14, 10)
 layout_mode = 2
 theme_override_constants/separation = 6
 script = ExtResource("3_hud")
-
-[node name="Turn" type="Label" parent="Margin/Split/Side/Menu/HudBox/Hud"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 17
-text = "Move 1   Black (you)"
-
-[node name="Captures" type="Label" parent="Margin/Split/Side/Menu/HudBox/Hud"]
-layout_mode = 2
-text = "Captures   B 0/10   W 0/10"
 
 [node name="Timer" type="Label" parent="Margin/Split/Side/Menu/HudBox/Hud"]
 modulate = Color(0.7, 1, 0.76, 1)
@@ -298,6 +343,37 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 12
 placeholder_text = "raw protocol line, enter to send"
 script = ExtResource("7_input")
+
+[node name="BoardSlot" type="Control" parent="Margin/Split"]
+custom_minimum_size = Vector2(360, 360)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="BoardFloat" type="Control" parent="Margin/Split/BoardSlot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("12_float")
+bob_pixels = 5.0
+bob_speed = 0.45
+tilt_degrees = 0.2
+tilt_speed = 0.28
+
+[node name="Goban" type="Control" parent="Margin/Split/BoardSlot/BoardFloat"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_filter = 2
+script = ExtResource("2_goban")
+hug_right = false
 
 [node name="WinScreen" parent="." instance=ExtResource("10_win")]
 visible = false
