@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Shader" path="res://Shaders/GameBackground.gdshader" id="0_bg"]
 [ext_resource type="Script" path="res://Scripts/game_background.gd" id="0_bgs"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://Scripts/reconnection_button.gd" id="6_recon"]
 [ext_resource type="Script" path="res://Scripts/command_input.gd" id="7_input"]
 [ext_resource type="Script" path="res://Scripts/chunky_panel.gd" id="9_panel"]
+[ext_resource type="Script" path="res://Scripts/player_strip.gd" id="11_strip"]
 [ext_resource type="PackedScene" path="res://Scenes/PauseMenu.tscn" id="8_pause"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/WinScreen.tscn" id="10_win"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/ChunkyButton.tscn" id="btn"]
@@ -109,6 +110,54 @@ layout_mode = 2
 bbcode_enabled = true
 fit_content = true
 script = ExtResource("5_status")
+
+[node name="StripBox" type="PanelContainer" parent="Margin/Split/Side/Menu"]
+layout_mode = 2
+script = ExtResource("9_panel")
+face = Color(0.055, 0.075, 0.105, 0.92)
+edge = Color(0.4, 0.6, 0.85, 0.55)
+pad = Vector2i(12, 8)
+
+[node name="Strip" type="VBoxContainer" parent="Margin/Split/Side/Menu/StripBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+script = ExtResource("11_strip")
+
+[node name="Current" type="PanelContainer" parent="Margin/Split/Side/Menu/StripBox/Strip"]
+layout_mode = 2
+script = ExtResource("9_panel")
+face = Color(0.09, 0.2, 0.14, 0.92)
+edge = Color(0.35, 0.8, 0.45, 0.75)
+pad = Vector2i(10, 6)
+
+[node name="Row" type="HBoxContainer" parent="Margin/Split/Side/Menu/StripBox/Strip/Current"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Stone" type="TextureRect" parent="Margin/Split/Side/Menu/StripBox/Strip/Current/Row"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Face" type="TextureRect" parent="Margin/Split/Side/Menu/StripBox/Strip/Current/Row"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Margin/Split/Side/Menu/StripBox/Strip/Current/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 16
+text = "Player 1"
+vertical_alignment = 1
+
+[node name="Queue" type="HBoxContainer" parent="Margin/Split/Side/Menu/StripBox/Strip"]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
 
 [node name="HudBox" type="PanelContainer" parent="Margin/Split/Side/Menu"]
 layout_mode = 2
