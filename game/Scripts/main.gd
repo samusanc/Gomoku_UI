@@ -13,6 +13,7 @@ const GAME_SCENE := "res://Scenes/GameScene.tscn"
 
 @onready var screen: SubViewportContainer = $Screen
 @onready var view: SubViewport = $Screen/View
+@onready var curtain: ColorRect = $Transition
 
 
 func _ready() -> void:
@@ -36,16 +37,22 @@ func set_crt(enabled: bool) -> void:
 
 ## Driven by the GAME event, not by the socket: connecting is not the same as
 ## having a game, and multiplayer waits in a lobby in between.
+##
+## The swap happens while the curtain is fully drawn, so the scene never pops.
 func show_game(_mode: String, _ruleset: String, _first: String) -> void:
 	if view.get_child_count() > 0 and view.get_child(0).name == "GameScene":
 		return
+	await curtain.cover()
 	show_scene(GAME_SCENE)
+	await curtain.reveal()
 
 
 ## Back to the menu, connection dropped, so the next PLAY starts clean.
 func leave_game() -> void:
+	await curtain.cover()
 	Network.set_zero()
 	show_scene(MENU_SCENE)
+	await curtain.reveal()
 
 
 ## Replace the viewport's content. The old child is detached before the new one
