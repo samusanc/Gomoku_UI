@@ -5,13 +5,19 @@ extends Control
 ## The label slides out in the direction you pressed, swaps its text while it is
 ## off screen, then slides back in from the other side. Two tweens would fight
 ## each other on a fast double click, so the running one is killed first.
+##
+## The label sits inside a plain Control rather than directly in the HBox. A
+## container rewrites its children positions on every layout pass, so animating
+## the position of a direct child fights the container and leaves the text
+## parked off centre. Inside a non container parent, x = 0 really is the rest
+## position.
 
 signal mode_changed(index)
 
 const SLIDE := 90.0
 const HALF_TIME := 0.11
 
-@onready var label: Label = $Row/Label
+@onready var label: Label = $Row/Slot/Label
 
 var titles: Array[String] = []
 var index := 0

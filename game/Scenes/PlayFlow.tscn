@@ -79,9 +79,19 @@ chunk_size = 28
 tone = 1
 text = "<"
 
-[node name="Label" type="Label" parent="ModeScreen/Box/VBox/Cycler/Row"]
+[node name="Slot" type="Control" parent="ModeScreen/Box/VBox/Cycler/Row"]
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="ModeScreen/Box/VBox/Cycler/Row/Slot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 4
@@ -89,7 +99,6 @@ theme_override_font_sizes/font_size = 30
 text = "SOLO"
 horizontal_alignment = 1
 vertical_alignment = 1
-clip_text = true
 
 [node name="Next" parent="ModeScreen/Box/VBox/Cycler/Row" instance=ExtResource("btn")]
 custom_minimum_size = Vector2(70, 66)
