@@ -1,10 +1,11 @@
-# Gomoku wire protocol — v1
+# Gomoku wire protocol — v2
 
 Contract between the C server (`server/`) and the Godot client (`game/`).
 
 ## Transport
 
-- TCP over `127.0.0.1:<port>`. The server binds loopback only.
+- TCP over `<host>:<port>`. The server binds **all interfaces**, so other
+  machines on the LAN can join a room.
 - One message per line, terminated by `\n`. A trailing `\r` is tolerated.
 - ASCII, fields separated by single spaces. First field is the verb, uppercase.
 - Max line length: 4096 bytes. Longer lines are truncated, not fatal.
@@ -51,7 +52,7 @@ are swapped in later without touching `src/net/` or `src/proto/`.
 | `GAME <mode> <ruleset> <first_color>` | A game started. |
 | `PLAYER <color> <kind> <name>` | Who holds that color. `kind` = `human`\|`ai`. |
 | `BOARD <361 cells>` | Full goban as one field: `.` empty, `b` black, `w` white. |
-| `TURN <color> <move_no>` | Whose turn it is now. |
+| `TURN <color> <move_no> <seat>` | Whose turn it is now, and which seat plays it. |
 | `PLACED <color> <x> <y> <move_no>` | A stone was placed, and by whom. |
 | `CAPTURED <by_color> <x1> <y1> <x2> <y2>` | A pair was removed from the board. |
 | `CAPTURES <black> <white>` | Running capture totals, in stones. |
@@ -72,6 +73,56 @@ are swapped in later without touching `src/net/` or `src/proto/`.
 - `END`: `alignment`, `captures`, `resign`, `draw`.
 - `ERROR`: `unknown_command`, `bad_args`, `no_game`, `not_implemented`,
   `internal`.
+
+
+## Rooms, seats and teams
+
+A room owns one board and a fixed number of seats. **Seat parity is the team:**
+even seats are black, odd seats are white, and the seat to play is
+`turn % seat_count`. So a four seat room rotates
+
+```
+ply 1  seat 0  black        ply 3  seat 2  black
+ply 2  seat 1  white        ply 4  seat 3  white
+```
+
+Teams alternate every ply and rotate within each team, which means the colour
+still alternates on every move and the engine needs no idea rooms exist.
+
+Every mode is the same shape:
+
+| Mode | Seats |
+|---|---|
+| Solo | 2, one human and one AI |
+| Hotseat | 2, both owned by the same client |
+| Multiplayer | 2 or 4, owned by different clients |
+
+Empty seats become AI when the game starts. A client that drops leaves its
+seats unheld; after **60 seconds** they become AI and keep the seat for the
+rest of the game — a returning player does not get it back.
+
+### Room commands
+
+| Command | Meaning |
+|---|---|
+| `CREATE <seats>` | Open a room with 2 or 4 seats, take seat 0, become admin. |
+| `JOIN <code>` | Take the lowest free seat of an existing room. |
+| `ADDAI` | Admin only: fill the next empty seat with an AI. |
+| `BEGIN` | Admin only: start the game; remaining empty seats become AI. |
+| `LEAVE` | Give up your seats. |
+
+### Room events
+
+| Event | Meaning |
+|---|---|
+| `ROOM <code> <seats> <admin_seat> <started>` | Room identity and state. |
+| `SEAT <index> <kind> <colour> <fd>` | One line per seat. `kind` = `human`\|`ai`\|`empty`. |
+| `LEFT` | Acknowledges `LEAVE`. |
+
+`TURN` gained a fourth field: `TURN <colour> <move_no> <seat>`.
+
+Errors: `no_room` (unknown code, full, or already started), `bad_args`
+(not admin, bad seat count, already in a room).
 
 ## Mapping subject requirements onto events
 
