@@ -19,12 +19,18 @@ const GRID_RIGHT := 0.960475
 const GRID_TOP := 0.045252
 const GRID_BOTTOM := 0.937536
 
+const COL_SHADOW := Color(0.0, 0.0, 0.0, 0.45)
+const SHADOW_DROP := Vector2(12.0, 16.0)
+
 const COL_BLACK := Color(0.07, 0.08, 0.10)
 const COL_WHITE := Color(0.93, 0.95, 0.96)
 const COL_RIM := Color(0.0, 0.0, 0.0, 0.55)
 const COL_LAST := Color(1.0, 0.85, 0.25, 0.95)
 const COL_HINT := Color(0.45, 1.0, 0.55, 0.95)
 const COL_BAD := Color(1.0, 0.35, 0.35, 0.75)
+
+## Sit the board against the side menu instead of centring it in the slack.
+@export var hug_right := true
 
 var hover := Vector2i(-1, -1)
 var last_move := Vector2i(-1, -1)
@@ -80,6 +86,10 @@ func on_end(_winner: String, _reason: String) -> void:
 
 
 ## The artwork, fitted into the available space without distorting it.
+##
+## Pushed to the right rather than centred: the board is followed by the side
+## menu, and a centred square leaves a gap between the two that reads as the
+## menu being adrift on the far edge.
 func board_rect() -> Rect2:
 	var tex_size := BOARD_TEX.get_size()
 	if tex_size.x <= 0.0 or tex_size.y <= 0.0:
@@ -90,7 +100,10 @@ func board_rect() -> Rect2:
 	if h > size.y:
 		h = size.y
 		w = h * aspect
-	return Rect2((size - Vector2(w, h)) * 0.5, Vector2(w, h))
+	var top := (size.y - h) * 0.5
+	if hug_right:
+		return Rect2(Vector2(size.x - w, top), Vector2(w, h))
+	return Rect2(Vector2((size.x - w) * 0.5, top), Vector2(w, h))
 
 
 ## Cell pitch in pixels, the smaller axis so stones never overlap a line.
@@ -145,7 +158,10 @@ func draw_stone(centre: Vector2, radius: float, colour: Color) -> void:
 
 
 func _draw() -> void:
-	draw_texture_rect(BOARD_TEX, board_rect(), false)
+	var r := board_rect()
+	# a plain offset block, the same idea as the button shadows
+	draw_rect(Rect2(r.position + SHADOW_DROP, r.size), COL_SHADOW, true)
+	draw_texture_rect(BOARD_TEX, r, false)
 	draw_stones()
 	draw_markers()
 
