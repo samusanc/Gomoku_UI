@@ -43,6 +43,7 @@ void	cmd_new(t_server *server, t_client *client, t_cmd *cmd)
 	room->session.finished = 0;
 	room->started = 1;
 	view_snapshot(server, room);
+	room_view_mine(server, room, client);
 	engine_advance(server, room);
 }
 
@@ -54,6 +55,7 @@ void	cmd_state(t_server *server, t_client *client)
 	if (room == NULL || room->session.active == 0)
 		return ((void)proto_emit(client, "ERROR no_game no game in progress"));
 	view_snapshot(server, room);
+	room_view_mine(server, room, client);
 }
 
 void	cmd_resign(t_server *server, t_client *client)

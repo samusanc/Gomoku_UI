@@ -70,6 +70,8 @@ int		seat_owned_by(t_room *room, int seat, t_client *client);
 const char	*seat_colour(int seat);
 void		room_emit(t_server *server, t_room *room, const char *fmt, ...);
 void		room_view_seats(t_server *server, t_room *room);
+void		room_view_mine(t_server *server, t_room *room,
+				t_client *client);
 
 /* room_tick.c */
 void	room_tick(t_server *server);

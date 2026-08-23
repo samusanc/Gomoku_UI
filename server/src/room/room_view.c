@@ -68,9 +68,37 @@ void	room_view_seats(t_server *server, t_room *room)
 	s = 0;
 	while (s < room->seat_count)
 	{
-		room_emit(server, room, "SEAT %d %s %s %d", s,
-			seat_kind_name(room->seats[s].kind), seat_colour(s),
-			room->seats[s].fd);
+		room_emit(server, room, "SEAT %d %s %s", s,
+			seat_kind_name(room->seats[s].kind), seat_colour(s));
 		s++;
 	}
+}
+
+/*
+** Which seats belong to this client. SEAT is broadcast so it cannot say
+** "mine"; this goes to one client only, and is what lets it work out whether
+** the seat on turn is its own.
+*/
+void	room_view_mine(t_server *server, t_room *room, t_client *client)
+{
+	char	list[64];
+	int		len;
+	int		count;
+	int		s;
+
+	(void)server;
+	len = 0;
+	count = 0;
+	s = 0;
+	while (s < room->seat_count && len < 40)
+	{
+		if (seat_owned_by(room, s, client) == 1)
+		{
+			len += snprintf(list + len, sizeof(list) - (size_t)len, " %d", s);
+			count++;
+		}
+		s++;
+	}
+	list[len] = '\0';
+	proto_emit(client, "YOUSEAT %d%s", count, list);
 }

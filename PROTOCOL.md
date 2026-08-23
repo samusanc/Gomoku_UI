@@ -50,7 +50,7 @@ are swapped in later without touching `src/net/` or `src/proto/`.
 |---|---|
 | `WELCOME <client_id> <version> <board_size>` | Sent on connect and on `HELLO`. |
 | `GAME <mode> <ruleset> <first_color>` | A game started. |
-| `PLAYER <color> <kind> <name>` | Who holds that color. `kind` = `human`\|`ai`. |
+| `SEAT` / `YOUSEAT` | Who holds each seat; see the rooms section. `PLAYER` was removed in v2, since with teams a colour can be held by both a human and an AI. |
 | `BOARD <361 cells>` | Full goban as one field: `.` empty, `b` black, `w` white. |
 | `TURN <color> <move_no> <seat>` | Whose turn it is now, and which seat plays it. |
 | `PLACED <color> <x> <y> <move_no>` | A stone was placed, and by whom. |
@@ -116,7 +116,8 @@ rest of the game — a returning player does not get it back.
 | Event | Meaning |
 |---|---|
 | `ROOM <code> <seats> <admin_seat> <started>` | Room identity and state. |
-| `SEAT <index> <kind> <colour> <fd>` | One line per seat. `kind` = `human`\|`ai`\|`empty`. |
+| `SEAT <index> <kind> <colour>` | One line per seat. `kind` = `human`\|`ai`\|`empty`. |
+| `YOUSEAT <count> <seat>...` | Sent to one client: which seats it controls. |
 | `LEFT` | Acknowledges `LEAVE`. |
 
 `TURN` gained a fourth field: `TURN <colour> <move_no> <seat>`.
@@ -147,21 +148,22 @@ C: HELLO 1
 S: WELCOME 0 1 19
 C: NEW pva standard B
 S: GAME pva standard B
-S: PLAYER B human -
-S: PLAYER W ai -
+S: SEAT 0 human B
+S: SEAT 1 ai W
+S: YOUSEAT 1 0
 S: BOARD ...................................................(361 chars)
 S: CAPTURES 0 0
-S: TURN B 1
+S: TURN B 1 0
 C: MOVE 9 9
 S: PLACED B 9 9 1
 S: BOARD .........................(with a b at index 180)........
-S: TURN W 2
+S: TURN W 2 1
 S: THINKING W
 S: DEBUG root depth 10 pv 9,8 8,8 10,9
 S: THOUGHT W 214 10 184320 35
 S: PLACED W 9 8 2
 S: BOARD ...
-S: TURN B 3
+S: TURN B 3 0
 ```
 
 ## Testing without Godot
@@ -170,6 +172,9 @@ S: TURN B 3
 ./gomoku_server 4242 &
 nc 127.0.0.1 4242
 ```
+
+A room needs two clients, so open a second `nc` and `JOIN` the code the first
+one was given.
 
 Then type commands by hand. The server must never die because of anything
 typed here — malformed input answers with `ERROR`, never a crash.

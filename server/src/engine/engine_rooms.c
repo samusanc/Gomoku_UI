@@ -24,6 +24,7 @@ void	cmd_create(t_server *server, t_client *client, t_cmd *cmd)
 	if (seat_take(room, client) < 0)
 		return ((void)proto_emit(client, "ERROR internal room full"));
 	room_view_seats(server, room);
+	room_view_mine(server, room, client);
 }
 
 /*
@@ -43,6 +44,7 @@ void	cmd_join(t_server *server, t_client *client, t_cmd *cmd)
 	if (seat_take(room, client) < 0)
 		return ((void)proto_emit(client, "ERROR no_room room is full"));
 	room_view_seats(server, room);
+	room_view_mine(server, room, client);
 }
 
 /*
