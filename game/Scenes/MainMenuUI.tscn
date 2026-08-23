@@ -12,7 +12,7 @@
 [ext_resource type="Script" uid="uid://dtm6n6dxwdhj6" path="res://Scripts/LoadWheel.gd" id="5_wheel"]
 [ext_resource type="PackedScene" path="res://Scenes/OptionsPanel.tscn" id="9_opt"]
 [ext_resource type="Script" uid="uid://co3shdgtrs5xi" path="res://Scripts/main_menu.gd" id="6_root"]
-[ext_resource type="Script" uid="uid://bq1fm0jgej7bt" path="res://Scripts/title_float.gd" id="7_float"]
+[ext_resource type="Script" path="res://Scripts/float_motion.gd" id="7_float"]
 [ext_resource type="Texture2D" uid="uid://c7mannqynhp6t" path="res://Assets/Textures/GomokuTitle.png" id="8_title"]
 [ext_resource type="Texture2D" uid="uid://cwws8x5cbgtme" path="res://Assets/Textures/loading/frame_1.png" id="f1"]
 [ext_resource type="Texture2D" uid="uid://ccpq6fhghodxj" path="res://Assets/Textures/loading/frame_2.png" id="f2"]
