@@ -15,6 +15,16 @@ const STONE_WHITE := preload("res://Assets/Textures/stone_white.png")
 const SLIDE := 46.0
 const SLIDE_TIME := 0.16
 
+## Boxes take the colour of the stone in that seat. Text has to flip with them
+## or the white box is unreadable.
+const FACE_BLACK := Color(0.09, 0.10, 0.13, 0.96)
+const EDGE_BLACK := Color(0.50, 0.56, 0.66, 0.8)
+const TEXT_BLACK := Color(0.93, 0.95, 0.98)
+const FACE_WHITE := Color(0.88, 0.90, 0.94, 0.96)
+const EDGE_WHITE := Color(0.55, 0.60, 0.70, 0.9)
+const TEXT_WHITE := Color(0.10, 0.12, 0.16)
+
+@onready var current_box: PanelContainer = $Current
 @onready var current_stone: TextureRect = $Current/Row/Stone
 @onready var current_face: TextureRect = $Current/Row/Face
 @onready var current_name: Label = $Current/Row/Name
@@ -75,10 +85,24 @@ func refresh() -> void:
 	var now := clampi(GameState.turn_seat, 0, count - 1)
 	var seat: Dictionary = GameState.seats[now]
 
-	current_stone.texture = stone_for(seat.get("colour", "B"))
+	var colour: String = seat.get("colour", "B")
+	paint(current_box, colour)
+	current_name.add_theme_color_override("font_color",
+		TEXT_WHITE if colour == "W" else TEXT_BLACK)
+	current_stone.texture = stone_for(colour)
 	current_face.texture = face_for(seat.get("kind", "empty"))
 	current_name.text = seat_name(now)
 	build_queue(now, count)
+
+
+## Tint a chunky panel to match a stone.
+func paint(box: PanelContainer, colour: String) -> void:
+	if colour == "W":
+		box.face = FACE_WHITE
+		box.edge = EDGE_WHITE
+	else:
+		box.face = FACE_BLACK
+		box.edge = EDGE_BLACK
 
 
 ## Everyone after the current seat, wrapping round, so the order shown is the
@@ -91,17 +115,25 @@ func build_queue(now: int, count: int) -> void:
 		queue.add_child(make_chip((now + step) % count))
 
 
+## A queued seat: the same stone colouring as the current box, dimmed, so the
+## whole strip reads as one row of players.
 func make_chip(index: int) -> Control:
 	var seat: Dictionary = GameState.seats[index]
+	var colour: String = seat.get("colour", "B")
+	var box := ChunkyPanel.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.pad = Vector2i(4, 3)
+	paint(box, colour)
+	box.modulate = Color(1, 1, 1, 0.72)
+
 	var chip := VBoxContainer.new()
 	chip.add_theme_constant_override("separation", 0)
-	chip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	chip.modulate = Color(1, 1, 1, 0.62)
+	box.add_child(chip)
 
 	var pair := HBoxContainer.new()
 	pair.alignment = BoxContainer.ALIGNMENT_CENTER
 	pair.add_theme_constant_override("separation", 2)
-	pair.add_child(make_icon(stone_for(seat.get("colour", "B")), 22))
+	pair.add_child(make_icon(stone_for(colour), 22))
 	var face := face_for(seat.get("kind", "empty"))
 	if face != null:
 		pair.add_child(make_icon(face, 22))
@@ -110,9 +142,11 @@ func make_chip(index: int) -> Control:
 	var tag := Label.new()
 	tag.text = seat_name(index)
 	tag.add_theme_font_size_override("font_size", 11)
+	tag.add_theme_color_override("font_color",
+		TEXT_WHITE if colour == "W" else TEXT_BLACK)
 	tag.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	chip.add_child(tag)
-	return chip
+	return box
 
 
 func make_icon(texture: Texture2D, size: int) -> TextureRect:

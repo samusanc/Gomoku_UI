@@ -1,14 +1,14 @@
 extends VBoxContainer
 
-## Turn, capture counters, and the mandatory AI think-time readout.
+## The mandatory AI think-time readout, plus refusals and the result line.
+## Turn and captures moved out: the player strip and the score box say both of
+## those more clearly than a line of text did.
 ##
 ## The timer counts locally while a THINKING is outstanding so the player sees
 ## it move, then snaps to the millisecond figure the server reports in THOUGHT.
 ## That figure is the authoritative one, and the running average is what the
 ## subject actually grades.
 
-@onready var turn_label: Label = $Turn
-@onready var captures_label: Label = $Captures
 @onready var timer_label: Label = $Timer
 @onready var result_label: Label = $Result
 
@@ -18,8 +18,6 @@ var samples: Array[int] = []
 
 
 func _ready() -> void:
-	SignalBus.turn_changed.connect(on_turn)
-	SignalBus.captures_changed.connect(on_captures)
 	SignalBus.ai_thinking.connect(on_thinking)
 	SignalBus.ai_thought.connect(on_thought)
 	SignalBus.game_ended.connect(on_end)
@@ -41,18 +39,6 @@ func on_new_game(_mode: String, _ruleset: String, _first: String) -> void:
 	thinking = false
 	result_label.text = ""
 	timer_label.text = "AI  --"
-	on_turn(GameState.side_to_move, GameState.move_no)
-	on_captures(0, 0)
-
-
-func on_turn(side: String, move_no: int) -> void:
-	var who := "Black" if side == "B" else "White"
-	var tag := "you" if GameState.is_human_turn() else "AI"
-	turn_label.text = "Move %d   %s (%s)" % [move_no, who, tag]
-
-
-func on_captures(black: int, white: int) -> void:
-	captures_label.text = "Captures   B %d/10   W %d/10" % [black, white]
 
 
 func on_thinking(_side: String) -> void:
