@@ -27,8 +27,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_panel")
-face = Color(0.02, 0.03, 0.04, 0.9)
-edge = Color(0.62, 0.71, 0.78, 0.4)
+face = Color(0.14, 0.18, 0.25, 0.93)
+edge = Color(0.55, 0.68, 0.86, 0.5)
 pad = Vector2i(24, 20)
 
 [node name="VBox" type="VBoxContainer" parent="Box"]
