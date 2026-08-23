@@ -1,9 +1,29 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="PackedScene" path="res://Scenes/UI/FloatBox.tscn" id="fb"]
 [ext_resource type="Script" path="res://Scripts/win_screen.gd" id="1_win"]
+[ext_resource type="Shader" path="res://Shaders/Confetti.gdshader" id="2_conf"]
+[ext_resource type="Script" path="res://Scripts/confetti.gd" id="3_conf"]
 [ext_resource type="Texture2D" path="res://Assets/Textures/stone_white.png" id="st"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/ChunkyButton.tscn" id="btn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_conf"]
+shader = ExtResource("2_conf")
+shader_parameter/speed = 140.0
+shader_parameter/sway_strength = 60.0
+shader_parameter/sway_speed = 1.4
+shader_parameter/spin_speed = 3.5
+shader_parameter/piece_size = 9.0
+shader_parameter/aspect_ratio = 2.0
+shader_parameter/resolution = Vector2(1152, 648)
+shader_parameter/col0 = Color(1, 0.2, 0.2, 1)
+shader_parameter/col1 = Color(1, 0.75, 0.1, 1)
+shader_parameter/col2 = Color(0.1, 0.8, 0.3, 1)
+shader_parameter/col3 = Color(0.15, 0.55, 1, 1)
+shader_parameter/col4 = Color(0.85, 0.2, 1, 1)
+shader_parameter/col5 = Color(1, 0.4, 0.7, 1)
+shader_parameter/col6 = Color(0.1, 0.9, 0.95, 1)
+shader_parameter/col7 = Color(1, 1, 1, 1)
 
 [node name="WinScreen" type="Control"]
 visible = false
@@ -24,6 +44,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.09, 0.26, 0.62, 0.62)
+
+[node name="Confetti" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_conf")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 1)
+script = ExtResource("3_conf")
 
 [node name="Panel" parent="." instance=ExtResource("fb")]
 offset_left = -235.0
