@@ -22,7 +22,7 @@ func _ready() -> void:
 	mat.set_shader_parameter("viewportNearest", view.get_texture())
 	mat.set_shader_parameter("viewportLinear", view.get_texture())
 	set_crt(true)
-	SignalBus.start_game.connect(show_game)
+	SignalBus.game_started.connect(show_game)
 	SignalBus.leave_game.connect(leave_game)
 	SignalBus.enable_crt.connect(set_crt.bind(true))
 	SignalBus.disable_crt.connect(set_crt.bind(false))
@@ -34,7 +34,11 @@ func set_crt(enabled: bool) -> void:
 	mat.set_shader_parameter("crt_enabled", enabled)
 
 
-func show_game() -> void:
+## Driven by the GAME event, not by the socket: connecting is not the same as
+## having a game, and multiplayer waits in a lobby in between.
+func show_game(_mode: String, _ruleset: String, _first: String) -> void:
+	if view.get_child_count() > 0 and view.get_child(0).name == "GameScene":
+		return
 	show_scene(GAME_SCENE)
 
 

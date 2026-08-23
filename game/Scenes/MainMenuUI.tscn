@@ -4,6 +4,7 @@
 [ext_resource type="Shader" uid="uid://cq25krttyvsbi" path="res://Shaders/Vignette.gdshader" id="1_vig"]
 [ext_resource type="Shader" path="res://Shaders/TitleShine.gdshader" id="10_shine"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/ChunkyButton.tscn" id="btn"]
+[ext_resource type="PackedScene" path="res://Scenes/PlayFlow.tscn" id="flow"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/GameSettings.tscn" id="gs"]
 [ext_resource type="Script" uid="uid://cso4hixclwdec" path="res://Scripts/StartButton.gd" id="2_start"]
 [ext_resource type="Script" uid="uid://b0jtaogw761ts" path="res://Scripts/crt_button.gd" id="3_crtbtn"]
@@ -265,59 +266,8 @@ chunk_size = 28
 tone = 2
 text = "QUIT"
 
-[node name="ConnectPanel" type="Control" parent="." unique_id=1843219407]
+[node name="PlayFlow" parent="." instance=ExtResource("flow")]
 visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="Box" type="PanelContainer" parent="ConnectPanel" unique_id=1879605314]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -235.0
-offset_top = -400.0
-offset_right = 235.0
-offset_bottom = -44.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_styles/panel = SubResource("StyleBoxFlat_box")
-
-[node name="VBox" type="VBoxContainer" parent="ConnectPanel/Box" unique_id=2094992033]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Status" type="RichTextLabel" parent="ConnectPanel/Box/VBox" unique_id=1751807646]
-custom_minimum_size = Vector2(0, 28)
-layout_mode = 2
-bbcode_enabled = true
-fit_content = true
-horizontal_alignment = 1
-script = ExtResource("4_status")
-
-[node name="GameSettings" parent="ConnectPanel/Box/VBox" instance=ExtResource("gs")]
-layout_mode = 2
-
-[node name="Play" type="Button" parent="ConnectPanel/Box/VBox"]
-script = ExtResource("2_start")
-custom_minimum_size = Vector2(0, 56)
-layout_mode = 2
-text = "PLAY"
-chunk_size = 22
-tone = 0
-
-[node name="Back" parent="ConnectPanel/Box/VBox" instance=ExtResource("btn")]
-layout_mode = 2
-chunk_size = 22
-tone = 1
-text = "Back"
 
 [node name="OptionsPanel" parent="." instance=ExtResource("9_opt")]
 visible = false
@@ -333,6 +283,4 @@ script = ExtResource("5_wheel")
 [connection signal="pressed" from="StartMenu/Box/HBox/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="StartMenu/Box/HBox/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="StartMenu/Box/HBox/Quit" to="." method="_on_quit_pressed"]
-[connection signal="pressed" from="ConnectPanel/Box/VBox/Play" to="ConnectPanel/Box/VBox/Play" method="_on_pressed"]
-[connection signal="pressed" from="ConnectPanel/Box/VBox/Back" to="." method="_on_back_pressed"]
 [connection signal="closed" from="OptionsPanel" to="." method="_on_back_pressed"]

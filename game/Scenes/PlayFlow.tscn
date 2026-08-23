@@ -1,0 +1,573 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://Scripts/play_flow.gd" id="1_flow"]
+[ext_resource type="Script" path="res://Scripts/chunky_panel.gd" id="panel"]
+[ext_resource type="Script" path="res://Scripts/mode_cycler.gd" id="cyc"]
+[ext_resource type="Script" path="res://Scripts/colour_choice.gd" id="col"]
+[ext_resource type="Script" path="res://Scripts/lobby_view.gd" id="lob"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/stone_black.png" id="sb"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/stone_white.png" id="sw"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/ChunkyButton.tscn" id="btn"]
+
+[node name="PlayFlow" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_flow")
+
+[node name="ModeScreen" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Box" type="PanelContainer" parent="ModeScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -235.0
+offset_top = -125.0
+offset_right = 235.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("panel")
+face = Color(0.02, 0.03, 0.04, 0.9)
+edge = Color(0.62, 0.71, 0.78, 0.4)
+pad = Vector2i(24, 20)
+
+[node name="VBox" type="VBoxContainer" parent="ModeScreen/Box"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="ModeScreen/Box/VBox"]
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "CHOOSE A MODE"
+horizontal_alignment = 1
+
+[node name="Cycler" type="Control" parent="ModeScreen/Box/VBox"]
+custom_minimum_size = Vector2(0, 74)
+layout_mode = 2
+script = ExtResource("cyc")
+
+[node name="Row" type="HBoxContainer" parent="ModeScreen/Box/VBox/Cycler"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="Prev" parent="ModeScreen/Box/VBox/Cycler/Row" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(70, 66)
+layout_mode = 2
+chunk_size = 28
+tone = 1
+text = "<"
+
+[node name="Label" type="Label" parent="ModeScreen/Box/VBox/Cycler/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 30
+text = "SOLO"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="Next" parent="ModeScreen/Box/VBox/Cycler/Row" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(70, 66)
+layout_mode = 2
+chunk_size = 28
+tone = 1
+text = ">"
+
+[node name="Buttons" type="HBoxContainer" parent="ModeScreen/Box/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Leave" parent="ModeScreen/Box/VBox/Buttons" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+chunk_size = 20
+tone = 1
+text = "Back"
+
+[node name="Go" parent="ModeScreen/Box/VBox/Buttons" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+chunk_size = 22
+tone = 0
+text = "Next"
+
+[node name="SoloScreen" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Box" type="PanelContainer" parent="SoloScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -200.0
+offset_right = 260.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("panel")
+face = Color(0.02, 0.03, 0.04, 0.9)
+edge = Color(0.62, 0.71, 0.78, 0.4)
+pad = Vector2i(24, 20)
+
+[node name="VBox" type="VBoxContainer" parent="SoloScreen/Box"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="SoloScreen/Box/VBox"]
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "PICK YOUR STONE"
+horizontal_alignment = 1
+
+[node name="Choice" type="HBoxContainer" parent="SoloScreen/Box/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 18
+alignment = 1
+script = ExtResource("col")
+
+[node name="Black" type="VBoxContainer" parent="SoloScreen/Box/VBox/Choice"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Pick" parent="SoloScreen/Box/VBox/Choice/Black" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+icon = ExtResource("sb")
+expand_icon = true
+icon_alignment = 1
+chunk_size = 18
+tone = 0
+text = ""
+
+[node name="Name" type="Label" parent="SoloScreen/Box/VBox/Choice/Black"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "BLACK, first"
+horizontal_alignment = 1
+
+[node name="White" type="VBoxContainer" parent="SoloScreen/Box/VBox/Choice"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Pick" parent="SoloScreen/Box/VBox/Choice/White" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+icon = ExtResource("sw")
+expand_icon = true
+icon_alignment = 1
+chunk_size = 18
+tone = 1
+text = ""
+
+[node name="Name" type="Label" parent="SoloScreen/Box/VBox/Choice/White"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "WHITE, second"
+horizontal_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="SoloScreen/Box/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Back" parent="SoloScreen/Box/VBox/Buttons" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+chunk_size = 20
+tone = 1
+text = "Back"
+
+[node name="Play" parent="SoloScreen/Box/VBox/Buttons" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+chunk_size = 26
+tone = 0
+text = "PLAY"
+
+[node name="LocalScreen" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Box" type="PanelContainer" parent="LocalScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -235.0
+offset_top = -125.0
+offset_right = 235.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("panel")
+face = Color(0.02, 0.03, 0.04, 0.9)
+edge = Color(0.62, 0.71, 0.78, 0.4)
+pad = Vector2i(24, 20)
+
+[node name="VBox" type="VBoxContainer" parent="LocalScreen/Box"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="LocalScreen/Box/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "LOCAL VS"
+horizontal_alignment = 1
+
+[node name="Note" type="Label" parent="LocalScreen/Box/VBox"]
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+text = "Two players, one mouse. Black plays first. Hint suggests a move for whoever is on turn."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="LocalScreen/Box/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Back" parent="LocalScreen/Box/VBox/Buttons" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+chunk_size = 20
+tone = 1
+text = "Back"
+
+[node name="Play" parent="LocalScreen/Box/VBox/Buttons" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+chunk_size = 26
+tone = 0
+text = "PLAY"
+
+[node name="OnlineScreen" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Box" type="PanelContainer" parent="OnlineScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -245.0
+offset_top = -165.0
+offset_right = 245.0
+offset_bottom = 165.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("panel")
+face = Color(0.02, 0.03, 0.04, 0.9)
+edge = Color(0.62, 0.71, 0.78, 0.4)
+pad = Vector2i(24, 20)
+
+[node name="VBox" type="VBoxContainer" parent="OnlineScreen/Box"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="OnlineScreen/Box/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "MULTIPLAYER"
+horizontal_alignment = 1
+
+[node name="Code" type="HBoxContainer" parent="OnlineScreen/Box/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="OnlineScreen/Box/VBox/Code"]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+text = "Room code"
+
+[node name="Field" type="LineEdit" parent="OnlineScreen/Box/VBox/Code"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "ABCD"
+alignment = 1
+max_length = 4
+
+[node name="Join" parent="OnlineScreen/Box/VBox" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+chunk_size = 24
+tone = 0
+text = "JOIN ROOM"
+
+[node name="Or" type="Label" parent="OnlineScreen/Box/VBox"]
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+text = "or"
+horizontal_alignment = 1
+
+[node name="Create" parent="OnlineScreen/Box/VBox" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+chunk_size = 22
+tone = 1
+text = "CREATE A ROOM"
+
+[node name="Back" parent="OnlineScreen/Box/VBox" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+chunk_size = 20
+tone = 1
+text = "Back"
+
+[node name="CreateScreen" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Box" type="PanelContainer" parent="CreateScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -235.0
+offset_top = -150.0
+offset_right = 235.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("panel")
+face = Color(0.02, 0.03, 0.04, 0.9)
+edge = Color(0.62, 0.71, 0.78, 0.4)
+pad = Vector2i(24, 20)
+
+[node name="VBox" type="VBoxContainer" parent="CreateScreen/Box"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="CreateScreen/Box/VBox"]
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "HOW MANY PLAYERS"
+horizontal_alignment = 1
+
+[node name="Counts" type="HBoxContainer" parent="CreateScreen/Box/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Two" parent="CreateScreen/Box/VBox/Counts" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 86)
+layout_mode = 2
+size_flags_horizontal = 3
+chunk_size = 38
+tone = 0
+text = "2"
+
+[node name="Four" parent="CreateScreen/Box/VBox/Counts" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 86)
+layout_mode = 2
+size_flags_horizontal = 3
+chunk_size = 38
+tone = 1
+text = "4"
+
+[node name="Chosen" type="Label" parent="CreateScreen/Box/VBox"]
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+text = "2 players"
+horizontal_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="CreateScreen/Box/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Back" parent="CreateScreen/Box/VBox/Buttons" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+chunk_size = 20
+tone = 1
+text = "Back"
+
+[node name="Start" parent="CreateScreen/Box/VBox/Buttons" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+chunk_size = 24
+tone = 0
+text = "CREATE"
+
+[node name="LobbyScreen" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("lob")
+
+[node name="Box" type="PanelContainer" parent="LobbyScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -215.0
+offset_right = 250.0
+offset_bottom = 215.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("panel")
+face = Color(0.02, 0.03, 0.04, 0.9)
+edge = Color(0.62, 0.71, 0.78, 0.4)
+pad = Vector2i(24, 20)
+
+[node name="VBox" type="VBoxContainer" parent="LobbyScreen/Box"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Head" type="HBoxContainer" parent="LobbyScreen/Box/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="LobbyScreen/Box/VBox/Head"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "ROOM"
+
+[node name="Code" type="Label" parent="LobbyScreen/Box/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.66, 1, 0.72, 1)
+theme_override_font_sizes/font_size = 26
+text = "----"
+
+[node name="Copy" parent="LobbyScreen/Box/VBox/Head" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+chunk_size = 15
+tone = 1
+text = "Copy"
+
+[node name="Players" type="VBoxContainer" parent="LobbyScreen/Box/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="Hint" type="Label" parent="LobbyScreen/Box/VBox"]
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+text = "Waiting..."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Admin" type="HBoxContainer" parent="LobbyScreen/Box/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="AddAi" parent="LobbyScreen/Box/VBox/Admin" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+chunk_size = 20
+tone = 1
+text = "Add AI"
+
+[node name="Start" parent="LobbyScreen/Box/VBox/Admin" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+chunk_size = 24
+tone = 0
+text = "START"
+
+[node name="Leave" parent="LobbyScreen/Box/VBox" instance=ExtResource("btn")]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+chunk_size = 18
+tone = 2
+text = "Leave"
+
+[connection signal="pressed" from="ModeScreen/Box/VBox/Cycler/Row/Prev" to="ModeScreen/Box/VBox/Cycler" method="_on_prev_pressed"]
+[connection signal="pressed" from="ModeScreen/Box/VBox/Cycler/Row/Next" to="ModeScreen/Box/VBox/Cycler" method="_on_next_pressed"]
+[connection signal="pressed" from="ModeScreen/Box/VBox/Buttons/Go" to="." method="_on_next_pressed"]
+[connection signal="pressed" from="ModeScreen/Box/VBox/Buttons/Leave" to="." method="_on_leave_pressed"]
+[connection signal="pressed" from="SoloScreen/Box/VBox/Buttons/Back" to="." method="_on_back_to_mode_pressed"]
+[connection signal="pressed" from="SoloScreen/Box/VBox/Buttons/Play" to="." method="_on_solo_play_pressed"]
+[connection signal="pressed" from="LocalScreen/Box/VBox/Buttons/Back" to="." method="_on_back_to_mode_pressed"]
+[connection signal="pressed" from="LocalScreen/Box/VBox/Buttons/Play" to="." method="_on_local_play_pressed"]
+[connection signal="pressed" from="OnlineScreen/Box/VBox/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="OnlineScreen/Box/VBox/Create" to="." method="_on_create_room_pressed"]
+[connection signal="pressed" from="OnlineScreen/Box/VBox/Back" to="." method="_on_back_to_mode_pressed"]
+[connection signal="pressed" from="CreateScreen/Box/VBox/Counts/Two" to="." method="_on_two_pressed"]
+[connection signal="pressed" from="CreateScreen/Box/VBox/Counts/Four" to="." method="_on_four_pressed"]
+[connection signal="pressed" from="CreateScreen/Box/VBox/Buttons/Back" to="." method="_on_back_to_mode_pressed"]
+[connection signal="pressed" from="CreateScreen/Box/VBox/Buttons/Start" to="." method="_on_create_start_pressed"]
+[connection signal="pressed" from="LobbyScreen/Box/VBox/Head/Copy" to="LobbyScreen" method="_on_copy_pressed"]
+[connection signal="pressed" from="LobbyScreen/Box/VBox/Admin/AddAi" to="LobbyScreen" method="_on_add_ai_pressed"]
+[connection signal="pressed" from="LobbyScreen/Box/VBox/Admin/Start" to="LobbyScreen" method="_on_start_pressed"]
+[connection signal="pressed" from="LobbyScreen/Box/VBox/Leave" to="." method="_on_leave_pressed"]

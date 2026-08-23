@@ -4,29 +4,30 @@ extends Control
 ## panels; every panel has a Back that brings the bar back.
 
 @onready var start_bar: Control = $StartMenu
-@onready var connect_panel: Control = $ConnectPanel
+@onready var play_flow: Control = $PlayFlow
 @onready var options_panel: Control = $OptionsPanel
 
 
 func _ready() -> void:
+	play_flow.closed.connect(show_start)
 	show_start()
 
 
 func show_start() -> void:
 	start_bar.visible = true
-	connect_panel.visible = false
+	play_flow.visible = false
 	options_panel.visible = false
 
 
 func _on_play_pressed() -> void:
 	start_bar.visible = false
 	options_panel.visible = false
-	connect_panel.visible = true
+	play_flow.visible = true
 
 
 func _on_options_pressed() -> void:
 	start_bar.visible = false
-	connect_panel.visible = false
+	play_flow.visible = false
 	options_panel.visible = true
 
 
